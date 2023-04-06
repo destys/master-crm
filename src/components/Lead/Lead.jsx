@@ -20,6 +20,7 @@ import { useParams } from "react-router";
 
 const Lead = () => {
   const leadId = parseInt(useParams().id);
+  console.log('leadId: ', leadId);
 
   const data = [
     {
