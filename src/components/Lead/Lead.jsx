@@ -16,8 +16,11 @@ import Parts from "./Parts";
 import Estimate from "./Estimate";
 import Telephony from "./Telephony";
 import Chat from "./Chat";
+import { useParams } from "react-router";
 
 const Lead = () => {
+  const leadId = parseInt(useParams().id);
+
   const data = [
     {
       label: "Редактирование",
