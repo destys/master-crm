@@ -1,18 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const LeadItemRow = (attributes) => {
-  const attr = attributes.attributes;
-  const leadDate = new Date(attr.createdAt);
+const LeadItemRow = ({ item }) => {
+  const id = item.id;
+  const leadDate = new Date(item.attributes.createdAt);
   const nowDate = new Date();
 
   return (
     <>
       <tr className="h-24 border border-gray-100 ">
         <td>
-          <Link to={"/lead"} className="flex items-center pl-5">
+          <Link to={`/lead/${id}`} className="flex items-center pl-5">
             <p className="text-base font-medium leading-none text-gray-700 mr-2">
-              {attr.order_number}
+              {item.attributes.order_number}
             </p>
           </Link>
         </td>
@@ -20,27 +20,27 @@ const LeadItemRow = (attributes) => {
           <div className="flex items-center">
             <p
               className={`text-sm leading-none text-gray-600 py-3 px-5  rounded  focus:outline-none ${
-                attr.order_status === "Новый"
+                item.attributes.order_status === "Новый"
                   ? "bg-green-100 hover:bg-green-200"
-                  : attr.order_status === "Принят"
+                  : item.attributes.order_status === "Принят"
                   ? "bg-yellow-100 hover:bg-yellow-200"
-                  : attr.order_status === "В работе"
+                  : item.attributes.order_status === "В работе"
                   ? "bg-yellow-100 hover:bg-yellow-200"
-                  : attr.order_status === "Согласовано"
+                  : item.attributes.order_status === "Согласовано"
                   ? "bg-yellow-100 hover:bg-yellow-200"
-                  : attr.order_status === "Готов"
+                  : item.attributes.order_status === "Готов"
                   ? "bg-gray-100 hover:bg-gray-200"
                   : "bg-red-100 hover:bg-red-200"
               }`}
             >
-              {attr.order_status}
+              {item.attributes.order_status}
             </p>
           </div>
         </td>
         <td className="pl-5">
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
-              {attr.order_location}
+              {item.attributes.correct_info?.order_place}
             </p>
           </div>
         </td>
@@ -65,7 +65,9 @@ const LeadItemRow = (attributes) => {
         <td className="pl-4">
           <button
             className={`${
-              attr.status !== "ready" && nowDate > leadDate ? "bg-red-200" : ""
+              item.attributes.status !== "ready" && nowDate > leadDate
+                ? "bg-red-200"
+                : ""
             } py-3 px-3 text-sm focus:outline-none leading-none text-gray-600 rounded`}
           >
             {leadDate.toLocaleString("ru", {
@@ -81,7 +83,7 @@ const LeadItemRow = (attributes) => {
           </div>
         </td>
         <td className="pl-4">
-          <Link to={"/lead"}>
+          <Link to={`/lead/${id}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

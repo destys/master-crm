@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Login from "./components/Login/Login";
+import Login from "./pages/Login/Login";
 import { Route, Routes } from "react-router";
 
 import { getToken } from "./helpers";
 
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import Sidebar from "./components/Sidebar/Sidebar";
 import CreateLead from "./components/CreateLead/CreateLead";
 import Lead from "./components/Lead/Lead";
@@ -23,7 +23,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createlead" element={<CreateLead />} />
-            <Route path="/lead" element={<Lead />} />
+            <Route path="/lead/:id" element={<Lead />} />
           </Routes>
         </div>
       ) : (

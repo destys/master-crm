@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from "react";
-import LeadItemRow from "../Lead/LeadItemRow";
+import LeadItemRow from "../../components/Lead/LeadItemRow";
 
 import UseFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { getToken } from "../../helpers";
 
 const Dashboard = () => {
-  const [userId, setUserid] = useState(2);
+  const [userId, setUserid] = useState(0);
 
-  useEffect(() => {
-    const userToken = getToken();
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/me`, {
-        headers: {
-          Authorization: "Bearer " + userToken,
-        },
-      })
-      .then((response) => {
-        setUserid(response.data.id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const userToken = getToken();
+  axios
+    .get(`${process.env.REACT_APP_API_URL}/users/me`, {
+      headers: {
+        Authorization: "Bearer " + userToken,
+      },
+    })
+    .then((response) => {
+      setUserid(response.data.id);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   console.log("userId: ", userId);
 
   const { data, loading, error } = UseFetch(
-    `/orders?populate=users_permissions_user&[filters][users_permissions_user][id]=${userId}`
+    `/orders?populate=*&[filters][users_permissions_user][id]=${userId}`
   );
 
   return (
@@ -104,10 +102,7 @@ const Dashboard = () => {
                     : loading
                     ? "loading…"
                     : data?.map((item) => (
-                        <LeadItemRow
-                          key={item.attributes.createdAt}
-                          attributes={item.attributes}
-                        />
+                        <LeadItemRow id={item.id} item={item} />
                       ))}
                 </tbody>
               </table>
