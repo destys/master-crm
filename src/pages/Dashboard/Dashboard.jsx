@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import LeadItemRow from "../../components/Lead/LeadItemRow";
 
 import UseFetch from "../../hooks/useFetch";
