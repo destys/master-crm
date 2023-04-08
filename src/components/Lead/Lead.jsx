@@ -62,35 +62,43 @@ const Lead = () => {
   ];
 
   return (
-    <div className="container px-5 mx-auto py-10 md:w-4/5 w-11/12 basis-3/4 overflow-hidden overflow-y-scroll max-h-screen">
-      <div className="col-span-full mb-4">
-        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
-          Наряд №{data?.attributes.order_number}
-        </h1>
-      </div>
-      <Actions />
-      <Tabs value="correct">
-        <TabsHeader>
-          {tabs?.map(({ label, value, index }) => (
-            <Tab
-              key={value}
-              value={value}
-              className="text-gray-600"
-              active={index === 0 ? "active" : ""}
-            >
-              {label}
-            </Tab>
-          ))}
-        </TabsHeader>
-        <TabsBody>
-          {tabs?.map(({ value, component }) => (
-            <TabPanel key={value} value={value} className="p-0">
-              {component}
-            </TabPanel>
-          ))}
-        </TabsBody>
-      </Tabs>
-    </div>
+    <>
+      {error ? (
+        error
+      ) : loading ? (
+        "Loading…"
+      ) : (
+        <div className="container px-5 mx-auto py-10 md:w-4/5 w-11/12 basis-3/4 overflow-hidden overflow-y-scroll max-h-screen">
+          <div className="col-span-full mb-4">
+            <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
+              Наряд №{data?.attributes.order_number}
+            </h1>
+          </div>
+          <Actions />
+          <Tabs value="correct">
+            <TabsHeader>
+              {tabs?.map(({ label, value, index }) => (
+                <Tab
+                  key={value}
+                  value={value}
+                  className="text-gray-600"
+                  active={index === 0 ? "active" : ""}
+                >
+                  {label}
+                </Tab>
+              ))}
+            </TabsHeader>
+            <TabsBody>
+              {tabs?.map(({ value, component }) => (
+                <TabPanel key={value} value={value} className="p-0">
+                  {component}
+                </TabPanel>
+              ))}
+            </TabsBody>
+          </Tabs>
+        </div>
+      )}
+    </>
   );
 };
 
