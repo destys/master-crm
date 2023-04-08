@@ -39,7 +39,7 @@ const CorrectInfo = ({ id }) => {
   };
 
   useEffect(() => {
-    const updateData = async (formData, id) => {
+    const updateData = async (formData, id, userToken) => {
       try {
         const response = await axios.put(
           `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
