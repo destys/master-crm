@@ -59,7 +59,7 @@ const LeadItemRow = ({ item }) => {
         </td>
         <td className="pl-5">
           <div className="flex items-center">
-            <p className="text-sm leading-none text-gray-600 ml-2">Беляев Е.</p>
+            <p className="text-sm leading-none text-gray-600 ml-2">{item.attributes.users_permissions_user.data.attributes.username}</p>
           </div>
         </td>
         <td className="pl-4">
@@ -79,7 +79,11 @@ const LeadItemRow = ({ item }) => {
         </td>
         <td className="pl-5">
           <div className="flex items-center">
-            <p className="text-sm leading-none text-gray-600 ml-2">2 000</p>
+            <p className="text-sm leading-none text-gray-600 ml-2">
+              <Link to={`tel:${item.attributes.phone}`}>
+                {item.attributes.phone}
+              </Link>
+            </p>
           </div>
         </td>
         <td className="pl-4">

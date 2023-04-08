@@ -90,20 +90,26 @@ const Dashboard = () => {
                     </td>
                     <td className="pl-5 py-3">
                       <p className="text-sm leading-none text-gray-600 ml-2">
-                        Бюджет
+                        Телефон клиента
                       </p>
                     </td>
                     <td className="pl-5 py-3"></td>
                   </tr>
                 </thead>
                 <tbody>
-                  {error
-                    ? error
-                    : loading
-                    ? "loading…"
-                    : data?.map((item) => (
-                        <LeadItemRow id={item.id} item={item} />
-                      ))}
+                  {error ? (
+                    <tr>
+                      <td>error</td>
+                    </tr>
+                  ) : loading ? (
+                    <tr>
+                      <td>"loading…"</td>
+                    </tr>
+                  ) : (
+                    data?.map((item) => (
+                      <LeadItemRow id={item.id} item={item} />
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
