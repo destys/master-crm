@@ -12,7 +12,6 @@ import { getToken } from "../../../helpers";
 
 const CorrectInfo = ({ id }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
-  const userToken = getToken();
 
   const [value, setValue] = useState(false);
   const [value2, setValue2] = useState(false);
@@ -39,13 +38,15 @@ const CorrectInfo = ({ id }) => {
   };
 
   useEffect(() => {
-    const updateData = async (formData, id, userToken) => {
+    const updateData = async (formData, id) => {
+      const userToken = getToken();
+      console.log('userToken: ', userToken);
       try {
         const response = await axios.put(
           `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
           {
             headers: {
-              "Authorization": "bearer " + userToken,
+              Authorization: "bearer " + userToken,
               "Content-Type": "application/json",
             },
             data: {
