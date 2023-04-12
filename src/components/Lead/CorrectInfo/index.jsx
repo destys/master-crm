@@ -70,7 +70,7 @@ const CorrectInfo = ({ id }) => {
 
   useEffect(() => {
     updateData(formData, id);
-  }, [formData, id]);
+  });
 
   const handleChange = (e) => {
     setValueStatus(e);
