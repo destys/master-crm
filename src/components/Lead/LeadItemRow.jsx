@@ -46,20 +46,30 @@ const LeadItemRow = ({ item }) => {
         </td>
         <td className="pl-5">
           <div className="flex flex-col">
-            <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
-              Электродвигатель
-            </p>
-            <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
-              NoName Китай
-            </p>
-            <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
-              Code 60119522
-            </p>
+            {item.attributes.correct_info.device && (
+              <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
+                {item.attributes.correct_info.device}
+              </p>
+            )}
+
+            {item.attributes.correct_info.brand && (
+              <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
+                {item.attributes.correct_info.brand}
+              </p>
+            )}
+            {item.attributes.correct_info.model_code && (
+              <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
+                {item.attributes.correct_info.model_code}
+              </p>
+            )}
           </div>
         </td>
         <td className="pl-5">
           <div className="flex items-center">
-            <p className="text-sm leading-none text-gray-600 ml-2">{item.attributes.users_permissions_user.data.attributes.username}</p>
+            <p className="text-sm leading-none text-gray-600 ml-2">
+              {item.attributes.users_permissions_user.data.attributes.name}{" "}
+              {item.attributes.users_permissions_user.data.attributes.last_name}
+            </p>
           </div>
         </td>
         <td className="pl-4">

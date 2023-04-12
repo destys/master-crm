@@ -86,7 +86,9 @@ const Sidebar = () => {
                   <polyline points="17 8 21 12 17 16" />
                   <line x1={14} y1={4} x2={10} y2={20} />
                 </svg>
-                <span className="text-sm  ml-2">Все заявки</span>
+                <Link to={"/"} className="text-sm  ml-2">
+                  Все заявки
+                </Link>
               </div>
               <div className="py-1 px-3 bg-gray-700 rounded text-gray-500 flex items-center justify-center text-xs">
                 36

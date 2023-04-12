@@ -4,6 +4,7 @@ import {
   Input,
   Textarea,
   Button,
+  Alert,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import UseFetch from "../../../hooks/useFetch";
@@ -13,11 +14,13 @@ import { getToken } from "../../../helpers";
 const CorrectInfo = ({ id }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
 
-  const [value, setValue] = useState(false);
+  const [valueStatus, setValueStatus] = useState(false);
   const [value2, setValue2] = useState(false);
   const [value3, setValue3] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [formData, setFormData] = useState([]);
+  const [showMessage, setShowMessage] = useState(false);
+  const [checkLoaded, setCheckLoaded] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,34 +40,40 @@ const CorrectInfo = ({ id }) => {
     setFormData(newFormData); // обновляем состояние компонента с новым массивом данных формы\
   };
 
-  useEffect(() => {
-    const updateData = async (formData, id) => {
-      const userToken = getToken();
-      console.log('userToken: ', userToken);
+  const updateData = async (formData, id) => {
+    const userToken = getToken();
+    if (checkLoaded) {
       try {
         const response = await axios.put(
           `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
           {
             headers: {
-              Authorization: "bearer " + userToken,
-              "Content-Type": "application/json",
+              Authorization: "Bearer " + userToken,
             },
             data: {
               id: id,
+              order_status: valueStatus,
               correct_info: formData[formData.length - 1],
             },
           }
         );
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 3000);
         console.log(response.data); // выводим ответ сервера в консоль
       } catch (error) {
         console.error(error);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     updateData(formData, id);
   }, [formData, id]);
 
   const handleChange = (e) => {
-    setValue(e);
+    setValueStatus(e);
   };
   const handleChange2 = (e) => {
     setValue2(e);
@@ -98,12 +107,16 @@ const CorrectInfo = ({ id }) => {
                 <div className="col-span-6 sm:col-span-3">
                   <div className="w-full mb-4">
                     <Select
-                      label="Площадка"
-                      value={value || data?.attributes.correct_info.order_place}
+                      label="Статус заказа"
+                      value={valueStatus || data?.attributes.order_status}
                       onChange={handleChange}
                     >
-                      <Option value="Выездная">Выездная</Option>
-                      <Option value="Cтационар">Cтационар</Option>
+                      <Option value="Новый">Новый</Option>
+                      <Option value="Принят">Принят</Option>
+                      <Option value="Согласовано">Согласовано</Option>
+                      <Option value="В работе">В работе</Option>
+                      <Option value="Готов">Готов</Option>
+                      <Option value="Отказ">Отказ</Option>
                     </Select>
                   </div>
                   <div className="w-full mb-4">
@@ -136,11 +149,11 @@ const CorrectInfo = ({ id }) => {
                   </div>
                   <div className="absolute">
                     <Input
-                      name="order_place"
+                      name="order_status"
                       className="h-0"
                       variant="standard"
                       type={"hidden"}
-                      value={value || data?.attributes.correct_info.order_place}
+                      value={valueStatus || data?.attributes.order_status}
                     />
                     <Input
                       name="type_of_repair"
@@ -232,7 +245,7 @@ const CorrectInfo = ({ id }) => {
                 <div className="col-span-6 sm:col-span-3">
                   <div className="w-full mb-4">
                     <Input
-                      name="defect_tag"
+                      name="device"
                       value={
                         formValues.device ||
                         data?.attributes.correct_info.device
@@ -254,8 +267,8 @@ const CorrectInfo = ({ id }) => {
                       required
                     />
                   </div>
-                  <div className="grid grid-cols-6 gap-3 mb-3">
-                    {/* <div className="col-span-6 sm:col-span-3">
+                  {/* <div className="grid grid-cols-6 gap-3 mb-3">
+                    <div className="col-span-6 sm:col-span-3">
                       <Checkbox
                         name="need_agreement"
                         success={data?.attributes.correct_info.need_agreement}
@@ -274,8 +287,8 @@ const CorrectInfo = ({ id }) => {
                         label="Безнал"
                         ripple={true}
                       />
-                    </div> */}
-                  </div>
+                    </div> 
+                  </div>*/}
                   <div className="w-full mb-4">
                     <Input
                       name="sold_date"
@@ -359,8 +372,16 @@ const CorrectInfo = ({ id }) => {
                   </div>
                 </div>
               </div>
+              <Alert
+                variant="filled"
+                className={`${!showMessage && "hidden"} mb-5`}
+              >
+                Изменения успешно сохранены
+              </Alert>
               <div className="col-span-6 sm:col-full">
-                <Button type="submit">Сохранить</Button>
+                <Button type="submit" onClick={() => setCheckLoaded(true)}>
+                  Сохранить
+                </Button>
               </div>
             </form>
           </div>

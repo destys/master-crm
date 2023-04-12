@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Tabs,
@@ -18,10 +18,31 @@ import Telephony from "./Telephony";
 import Chat from "./Chat";
 import { useParams } from "react-router";
 import UseFetch from "../../hooks/useFetch";
+import { getToken } from "../../helpers";
+import axios from "axios";
 
 const Lead = () => {
   const leadId = parseInt(useParams().id);
-  const { data, loading, error } = UseFetch(`/orders/${leadId}`);
+  const [userId, setUserid] = useState(0);
+
+  const { data, loading, error } = UseFetch(
+    `/orders/${leadId}?populate=users_permissions_user`
+  );
+  console.log("data: ", data);
+
+  const userToken = getToken();
+  axios
+    .get(`${process.env.REACT_APP_API_URL}/users/me`, {
+      headers: {
+        Authorization: "Bearer " + userToken,
+      },
+    })
+    .then((response) => {
+      setUserid(response.data.id);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   const tabs = [
     {
@@ -74,28 +95,34 @@ const Lead = () => {
               Наряд №{data?.attributes.order_number}
             </h1>
           </div>
-          <Actions />
-          <Tabs value="correct">
-            <TabsHeader>
-              {tabs?.map(({ label, value, index }) => (
-                <Tab
-                  key={value}
-                  value={value}
-                  className="text-gray-600"
-                  active={index === 0 ? "active" : ""}
-                >
-                  {label}
-                </Tab>
-              ))}
-            </TabsHeader>
-            <TabsBody>
-              {tabs?.map(({ value, component }) => (
-                <TabPanel key={value} value={value} className="p-0">
-                  {component}
-                </TabPanel>
-              ))}
-            </TabsBody>
-          </Tabs>
+          {data?.attributes.users_permissions_user.data.id === userId ? (
+            <Actions />
+          ) : (
+            "У вас нет доступа к данному заказу"
+          )}
+          {data?.attributes.users_permissions_user.data.id === userId && (
+            <Tabs value="correct">
+              <TabsHeader>
+                {tabs?.map(({ label, value, index }) => (
+                  <Tab
+                    key={value}
+                    value={value}
+                    className="text-gray-600"
+                    active={index === 0 ? "active" : ""}
+                  >
+                    {label}
+                  </Tab>
+                ))}
+              </TabsHeader>
+              <TabsBody>
+                {tabs?.map(({ value, component }) => (
+                  <TabPanel key={value} value={value} className="p-0">
+                    {component}
+                  </TabPanel>
+                ))}
+              </TabsBody>
+            </Tabs>
+          )}
         </div>
       )}
     </>
