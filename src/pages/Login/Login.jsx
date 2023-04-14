@@ -31,7 +31,7 @@ const Login = () => {
         <div>
           <img
             className="mx-auto h-12 w-auto"
-            src="images/short-logo.svg"
+            src="/images/short-logo.svg"
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">

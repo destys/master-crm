@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Tabs,
@@ -23,32 +23,40 @@ import axios from "axios";
 
 const Lead = () => {
   const leadId = parseInt(useParams().id);
-  const [userId, setUserid] = useState(0);
+  const [userId, setUserId] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { data, loading, error } = UseFetch(
-    `/orders/${leadId}?populate=users_permissions_user`
-  );
-  console.log("data: ", data);
+  const { data } = UseFetch(`/orders/${leadId}?populate=*`);
 
-  const userToken = getToken();
-  axios
-    .get(`${process.env.REACT_APP_API_URL}/users/me`, {
-      headers: {
-        Authorization: "Bearer " + userToken,
-      },
-    })
-    .then((response) => {
-      setUserid(response.data.id);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    const userToken = getToken();
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/me?populate=role`, {
+        headers: {
+          Authorization: "Bearer " + userToken,
+        },
+      })
+      .then((response) => {
+        setLoading(true);
+        setUserId(response.data.id);
+        response.data.role.type === "admin"
+          ? setIsAdmin(true)
+          : setIsAdmin(false);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        console.log(error);
+      });
+  }, []);
 
   const tabs = [
     {
       label: "Редактирование",
       value: "correct",
-      component: <CorrectInfo id={leadId} />,
+      component: <CorrectInfo id={leadId} data={data} />,
     },
     {
       label: "Трекинг",
@@ -58,7 +66,7 @@ const Lead = () => {
     {
       label: "Вложения",
       value: "attachments",
-      component: <Attachments id={leadId} />,
+      component: <Attachments id={leadId} data={data} />,
     },
     {
       label: "Запчасти",
@@ -95,12 +103,14 @@ const Lead = () => {
               Наряд №{data?.attributes.order_number}
             </h1>
           </div>
-          {data?.attributes.users_permissions_user.data.id === userId ? (
+          {data?.attributes.users_permissions_user.data.id === userId ||
+          isAdmin ? (
             <Actions />
           ) : (
             "У вас нет доступа к данному заказу"
           )}
-          {data?.attributes.users_permissions_user.data.id === userId && (
+          {data?.attributes.users_permissions_user.data.id === userId ||
+          isAdmin ? (
             <Tabs value="correct">
               <TabsHeader>
                 {tabs?.map(({ label, value, index }) => (
@@ -122,6 +132,8 @@ const Lead = () => {
                 ))}
               </TabsBody>
             </Tabs>
+          ) : (
+            "У вас нет доступа к данному заказу. Пожалуйста, обратитесь к администратору"
           )}
         </div>
       )}
