@@ -40,7 +40,7 @@ const Dashboard = () => {
       ) : loading ? (
         "Loading"
       ) : (
-        <div className="container px-5 mx-auto py-10 md:w-4/5 w-11/12 basis-3/4 overscroll-contain max-h-screen">
+        <div className="px-5 mx-auto py-10 md:w-4/5 w-11/12 basis-3/4 overscroll-contain max-h-screen">
           <div className="w-full h-full rounded ">
             <div className="w-full">
               <div className="px-4 py-0 md:py-7">
@@ -48,7 +48,7 @@ const Dashboard = () => {
                   <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
                     Наряды
                   </p>
-                  <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+                  {/* <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
                     <p>Сортировать по:</p>
                     <select className="focus:outline-none bg-transparent ml-1">
                       <option className="text-sm text-indigo-800">
@@ -61,7 +61,7 @@ const Dashboard = () => {
                         Просроченные
                       </option>
                     </select>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="bg-white">

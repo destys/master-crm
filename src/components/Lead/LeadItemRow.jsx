@@ -47,7 +47,7 @@ const LeadItemRow = ({ item }) => {
         <td className="pl-5">
           <div className="flex flex-col">
             {item.attributes.correct_info.device && (
-              <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
+              <p className="text-sm leading-none text-gray-600 ml-2 mb-2 truncate ... w-[200px]">
                 {item.attributes.correct_info.device}
               </p>
             )}
@@ -68,7 +68,10 @@ const LeadItemRow = ({ item }) => {
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
               {item.attributes?.users_permissions_user.data?.attributes?.name}{" "}
-              {item.attributes?.users_permissions_user.data?.attributes?.last_name}
+              {
+                item.attributes?.users_permissions_user.data?.attributes
+                  ?.last_name
+              }
             </p>
           </div>
         </td>
