@@ -9,7 +9,6 @@ import {
 } from "@material-tailwind/react";
 
 import CorrectInfo from "./CorrectInfo";
-import Tracking from "./Tracking";
 import Actions from "./Actions";
 import Attachments from "./Attachments";
 import Parts from "./Parts";
@@ -62,11 +61,6 @@ const Lead = () => {
       label: "Клиент",
       value: "client",
       component: <Client id={leadId} data={data} />,
-    },
-    {
-      label: "Трекинг",
-      value: "tracking",
-      component: <Tracking id={leadId} />,
     },
     {
       label: "Вложения",
