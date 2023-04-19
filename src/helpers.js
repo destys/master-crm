@@ -17,7 +17,7 @@ export const strapiLogout = () => {
     window.location.reload();
 }
 
-export const getOrders = async () => {
+export const getOrders = async ({ id }) => {
     const response = await axios.get(`${apiUrl}/api/orders`, {});
     return response.data;
 }

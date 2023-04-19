@@ -2,19 +2,18 @@ import axios from "axios";
 import React from "react";
 
 const Telephony = () => {
-
-  const clientId = "16934225";
-  const clientSecret = "ug8gw0jvvjtson18s8k99jbjed6snptb";
+  const apiKey = "ug8gw0jvvjtson18s8k99jbjed6snptb";
+  const apiEndpoint =
+    "https://cors-anywhere.herokuapp.com/https://app.mango-office.ru/vpbx/stats/v1/calls?from=2023-04-19&to=2023-04-19";
 
   axios
-    .post("https://cors-anywhere.herokuapp.com/https://app.mango-office.ru/vpbx/v1/token", {
-      grant_type: "client_credentials",
-      client_id: clientId,
-      client_secret: clientSecret,
+    .get(apiEndpoint, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
     })
     .then((response) => {
-      const accessToken = response.data.access_token;
-      console.log(accessToken);
+      console.log(response.data);
     })
     .catch((error) => {
       console.error(error);

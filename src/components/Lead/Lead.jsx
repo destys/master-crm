@@ -13,13 +13,13 @@ import Tracking from "./Tracking";
 import Actions from "./Actions";
 import Attachments from "./Attachments";
 import Parts from "./Parts";
-import Estimate from "./Estimate";
 import Telephony from "./Telephony";
 import Chat from "./Chat";
 import { useParams } from "react-router";
 import UseFetch from "../../hooks/useFetch";
 import { getToken } from "../../helpers";
 import axios from "axios";
+import Client from "./Client/Client";
 
 const Lead = () => {
   const leadId = parseInt(useParams().id);
@@ -59,6 +59,11 @@ const Lead = () => {
       component: <CorrectInfo id={leadId} data={data} />,
     },
     {
+      label: "Клиент",
+      value: "client",
+      component: <Client id={leadId} data={data} />,
+    },
+    {
       label: "Трекинг",
       value: "tracking",
       component: <Tracking id={leadId} />,
@@ -72,11 +77,6 @@ const Lead = () => {
       label: "Запчасти",
       value: "spare-parts",
       component: <Parts id={leadId} />,
-    },
-    {
-      label: "Готовность",
-      value: "readiness",
-      component: <Estimate id={leadId} />,
     },
     {
       label: "Связь",
