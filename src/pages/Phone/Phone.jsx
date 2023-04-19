@@ -1,28 +1,26 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 
-const Phone = () => {
-  const [calls, setCalls] = useState([]);
+const Telephony = () => {
 
-  const apiKey = "usvl5a86gil6y6sxfkg8nuyifrfl96ms";
-  const apiEndpoint =
-    "https://app.mango-office.ru/vpbx/stats/v1/calls?from=2021-03-01&to=2023-04-18";
+  const clientId = "16934225";
+  const clientSecret = "ug8gw0jvvjtson18s8k99jbjed6snptb";
 
   axios
-    .get(apiEndpoint, {
-      headers: {
-        "X-API-KEY": apiKey,
-      },
+    .post("https://cors-anywhere.herokuapp.com/https://app.mango-office.ru/vpbx/v1/token", {
+      grant_type: "client_credentials",
+      client_id: clientId,
+      client_secret: clientSecret,
     })
     .then((response) => {
-      setCalls(response.data);
-      console.log(response.data);
+      const accessToken = response.data.access_token;
+      console.log(accessToken);
     })
     .catch((error) => {
       console.error(error);
     });
 
-  return <div>{calls}</div>;
+  return <div></div>;
 };
 
-export default Phone;
+export default Telephony;
