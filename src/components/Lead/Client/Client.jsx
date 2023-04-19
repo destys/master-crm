@@ -10,40 +10,6 @@ const Client = ({ id }) => {
   const [showMessage, setShowMessage] = useState(false);
   const [formValues, setFormValues] = useState({});
 
-  /* фыв */
-
-  const strapiApi = axios.create({
-    baseURL: "https://snurinoothe.beget.app/api/", // укажите свой URL Strapi
-  });
-
-  strapiApi
-    .get("clients", {
-      headers: {
-        Authorization: "Bearer " + userToken,
-      },
-    })
-    .then((response) => {})
-    .catch((error) => {
-      console.log(error);
-    });
-  strapiApi
-    .get("clients", {
-      headers: {
-        Authorization: "Bearer " + userToken,
-      },
-      params: {
-        q: { phone: 79264301450 }, // задайте имя поля и значение для поиска
-        _limit: 1, // укажите количество элементов, которые нужно получить
-      },
-    })
-    .then((response) => {
-      console.log("re: ", response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  /* фыв */
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newFormData = [...formData]; // создаем копию массива данных формы
@@ -61,27 +27,58 @@ const Client = ({ id }) => {
     newFormData.push(formDataObject); // добавляем объект с данными формы в массив
     setFormData(newFormData); // обновляем состояние компонента с новым массивом данных формы
 
-    axios
-      .put(`https://snurinoothe.beget.app/api/clients/${client.id}`, {
-        headers: {
-          Authorization: "Bearer " + userToken,
-        },
-        data: {
-          id: client.id,
-          name: formValues.name,
-          phone: formValues.phone,
-          address: formValues.address,
-        },
-      })
-      .then((response) => {
-        setShowMessage(true);
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 3000); // выводим ответ сервера в консоль
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (client !== null) {
+      axios
+        .put(`https://snurinoothe.beget.app/api/clients/${client.id}`, {
+          headers: {
+            Authorization: "Bearer " + userToken,
+          },
+          data: {
+            id: client.id,
+            name: formValues.name,
+            phone: formValues.phone,
+            address: formValues.address,
+          },
+        })
+        .then((response) => {
+          setShowMessage(true);
+          setTimeout(() => {
+            setShowMessage(false);
+          }, 3000); // выводим ответ сервера в консоль
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(
+          `https://snurinoothe.beget.app/api/clients?poplate=orders`,
+          {
+            data: {
+              name: formValues.name,
+              phone: formValues.phone,
+              address: formValues.address,
+              orders: id,
+            },
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + userToken,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(userToken);
+          setShowMessage(true);
+          setTimeout(() => {
+            setShowMessage(false);
+          }, 3000); // выводим ответ сервера в консоль
+        })
+        .catch((error) => {
+          console.log(userToken);
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
