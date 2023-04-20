@@ -10,6 +10,7 @@ import CreateLead from "./components/CreateLead/CreateLead";
 import Lead from "./components/Lead/Lead";
 import Clients from "./pages/Clients/Clients";
 import Phone from "./pages/Phone/Phone";
+import NewOrders from "./pages/Dashboard/NewOrders";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/new" element={<NewOrders />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/telephony" element={<Phone />} />
             <Route path="/createlead" element={<CreateLead />} />

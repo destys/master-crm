@@ -70,7 +70,7 @@ const Lead = () => {
     {
       label: "Запчасти",
       value: "spare-parts",
-      component: <Parts id={leadId} />,
+      component: <Parts id={leadId} data={data} />,
     },
     {
       label: "Связь",
@@ -97,13 +97,13 @@ const Lead = () => {
               Наряд №{data?.attributes.order_number}
             </h1>
           </div>
-          {data?.attributes.users_permissions_user.data.id === userId ||
+          {data?.attributes.users_permissions_user?.data?.id === userId ||
           isAdmin ? (
             <Actions />
           ) : (
             "У вас нет доступа к данному заказу"
           )}
-          {data?.attributes.users_permissions_user.data.id === userId ||
+          {data?.attributes.users_permissions_user?.data?.id === userId ||
           isAdmin ? (
             <Tabs value="correct">
               <TabsHeader>

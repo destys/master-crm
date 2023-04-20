@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 const LeadItemRow = ({ item }) => {
   const id = item.id;
-  const leadDate = new Date(item.attributes.createdAt);
-  const nowDate = new Date();
 
   return (
     <>
@@ -74,21 +72,6 @@ const LeadItemRow = ({ item }) => {
               }
             </p>
           </div>
-        </td>
-        <td className="pl-4">
-          <button
-            className={`${
-              item.attributes.status !== "ready" && nowDate > leadDate
-                ? "bg-red-200"
-                : ""
-            } py-3 px-3 text-sm focus:outline-none leading-none text-gray-600 rounded`}
-          >
-            {leadDate.toLocaleString("ru", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-            }) + ""}
-          </button>
         </td>
         <td className="pl-5">
           <div className="flex items-center">

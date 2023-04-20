@@ -4,7 +4,7 @@ import LeadItemRow from "../../components/Lead/LeadItemRow";
 import axios from "axios";
 import { getToken } from "../../helpers";
 
-const Dashboard = () => {
+const NewOrders = () => {
   const userToken = getToken();
   const [userId, setUserid] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -14,7 +14,8 @@ const Dashboard = () => {
 
   const queryParams =
     "/orders?pagination[pageSize]=2000&populate=*&sort=order_number:desc" +
-    (isAdmin ? "" : `&[filters][users_permissions_user][id]=${userId}`);
+    (isAdmin ? "" : `&filters[users_permissions_user][id]=${userId}`) +
+    `&filters[order_status]=${"Новый"}`;
 
   useEffect(() => {
     axios
@@ -26,7 +27,6 @@ const Dashboard = () => {
       .then((response) => {
         setLeads(response.data.data);
         /* setMeta(response.data.meta); */
-        console.log("response: ", response.data);
       })
       .catch((error) => {
         setError(error);
@@ -42,6 +42,7 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
+        console.log("responseUser: ", response.data.role.type);
         response.data.role.type === "admin"
           ? setIsAdmin(true)
           : setIsAdmin(false);
@@ -142,4 +143,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default NewOrders;
