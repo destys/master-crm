@@ -6,7 +6,7 @@ import {
   Button,
   Alert,
 } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UseFetch from "../../../hooks/useFetch";
 import axios from "axios";
 import { getToken } from "../../../helpers";
@@ -14,13 +14,12 @@ import { getToken } from "../../../helpers";
 const CorrectInfo = ({ id }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
 
-  const [valueStatus, setValueStatus] = useState(false);
+  const [valueStatus, setValueStatus] = useState(data?.attributes.order_status);
   const [value2, setValue2] = useState(false);
   const [value3, setValue3] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [formData, setFormData] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
-  const [checkLoaded, setCheckLoaded] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,34 +41,28 @@ const CorrectInfo = ({ id }) => {
 
   const updateData = async (formData, id) => {
     const userToken = getToken();
-    if (checkLoaded) {
-      try {
-        await axios.put(
-          `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
-          {
-            headers: {
-              Authorization: "Bearer " + userToken,
-            },
-            data: {
-              id: id,
-              order_status: valueStatus,
-              correct_info: formData[formData.length - 1],
-            },
-          }
-        );
-        setShowMessage(true);
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 3000); // выводим ответ сервера в консоль
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      await axios.put(
+        `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
+        {
+          headers: {
+            Authorization: "Bearer " + userToken,
+          },
+          data: {
+            id: id,
+            order_status: valueStatus,
+            correct_info: formData[formData.length - 1],
+          },
+        }
+      );
+      setShowMessage(true);
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 3000); // выводим ответ сервера в консоль
+    } catch (error) {
+      console.error(error);
     }
   };
-
-  useEffect(() => {
-    updateData(formData, id);
-  });
 
   const handleChange = (e) => {
     setValueStatus(e);
@@ -87,6 +80,10 @@ const CorrectInfo = ({ id }) => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const submitBtnClick = (e) => {
+    updateData(formData, id);
   };
 
   return (
@@ -378,7 +375,7 @@ const CorrectInfo = ({ id }) => {
                 Изменения успешно сохранены
               </Alert>
               <div className="col-span-6 sm:col-full">
-                <Button type="submit" onClick={() => setCheckLoaded(true)}>
+                <Button type="submit" onClick={submitBtnClick}>
                   Сохранить
                 </Button>
               </div>
