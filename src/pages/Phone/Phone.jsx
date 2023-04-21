@@ -10,7 +10,7 @@ const Telephony = () => {
   console.log("sign: ", sign);
 
   const apiEndpoint =
-    "https://cors-anywhere.herokuapp.com/https://app.mango-office.ru/vpbx/account/balance";
+    "https://app.mango-office.ru/vpbx/account/balance";
 
   axios
     .post(apiEndpoint, sign)
