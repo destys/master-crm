@@ -4,20 +4,18 @@ import LeadItemRow from "../../components/Lead/LeadItemRow";
 import axios from "axios";
 import { getToken } from "../../helpers";
 
-const NewOrders = () => {
+const NewOrders = ({ isAdmin, userId }) => {
   const userToken = getToken();
-  const [userId, setUserid] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [leads, setLeads] = useState([]);
   /* const [meta, setMeta] = useState([]); */
   const [error, setError] = useState("");
 
-  const queryParams =
-    "/orders?pagination[pageSize]=2000&populate=*&sort=order_number:desc" +
-    (isAdmin ? "" : `&filters[users_permissions_user][id]=${userId}`) +
-    `&filters[order_status]=${"Новый"}`;
-
   useEffect(() => {
+    const queryParams =
+      "/orders?pagination[pageSize]=2000&populate=*&sort=order_number:desc" +
+      (isAdmin ? "" : `&filters[users_permissions_user][id]=${userId}`) +
+      `&filters[order_status]=${"Новый"}`;
+
     axios
       .get(process.env.REACT_APP_API_URL + queryParams, {
         headers: {
@@ -32,27 +30,7 @@ const NewOrders = () => {
         setError(error);
         console.log(error);
       });
-  }, [queryParams, userToken]);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/me?populate=role`, {
-        headers: {
-          Authorization: "Bearer " + userToken,
-        },
-      })
-      .then((response) => {
-        console.log("responseUser: ", response.data.role.type);
-        response.data.role.type === "admin"
-          ? setIsAdmin(true)
-          : setIsAdmin(false);
-
-        setUserid(response.data.id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [userToken]);
+  }, [userToken, isAdmin, userId]);
 
   return (
     <>
@@ -122,7 +100,7 @@ const NewOrders = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {error ? (
+                      {error !== "" ? (
                         <tr>
                           <td>error</td>
                         </tr>

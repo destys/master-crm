@@ -11,12 +11,35 @@ import Lead from "./components/Lead/Lead";
 import Clients from "./pages/Clients/Clients";
 import Phone from "./pages/Phone/Phone";
 import NewOrders from "./pages/Dashboard/NewOrders";
+import axios from "axios";
 
 function App() {
+  const userToken = getToken();
   const [isLogged, setIsLogged] = useState(false);
+  const [userId, setUserid] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
-    getToken() ? setIsLogged(true) : setIsLogged(false);
-  }, [isLogged]);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/me?populate=role`, {
+        headers: {
+          Authorization: "Bearer " + userToken,
+        },
+      })
+      .then((response) => {
+        response.data.role.type === "admin"
+          ? setIsAdmin(true)
+          : setIsAdmin(false);
+
+        setIsLogged(true);
+        setUserid(response.data.id);
+      })
+      .catch((error) => {
+        setIsLogged(false);
+        console.log(error);
+      });
+  }, [isLogged, userToken]);
+
   return (
     <>
       {isLogged ? (
@@ -24,9 +47,18 @@ function App() {
           <Sidebar />
           <div className="w-80 min-w-[320px] hidden sm:block"></div>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/new" element={<NewOrders />} />
+            <Route
+              path="/"
+              element={<Dashboard isAdmin={isAdmin} userId={userId} />}
+            />
+            <Route
+              path="/dashboard"
+              element={<Dashboard isAdmin={isAdmin} userId={userId} />}
+            />
+            <Route
+              path="/new"
+              element={<NewOrders isAdmin={isAdmin} userId={userId} />}
+            />
             <Route path="/clients" element={<Clients />} />
             <Route path="/telephony" element={<Phone />} />
             <Route path="/createlead" element={<CreateLead />} />

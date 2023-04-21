@@ -4,19 +4,15 @@ import LeadItemRow from "../../components/Lead/LeadItemRow";
 import axios from "axios";
 import { getToken } from "../../helpers";
 
-const Dashboard = () => {
+const Dashboard = ({ isAdmin, userId }) => {
   const userToken = getToken();
-  const [userId, setUserid] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [leads, setLeads] = useState([]);
-  /* const [meta, setMeta] = useState([]); */
   const [error, setError] = useState("");
 
-  const queryParams =
-    "/orders?pagination[pageSize]=2000&populate=*&sort=order_number:desc" +
-    (isAdmin ? "" : `&[filters][users_permissions_user][id]=${userId}`);
-
   useEffect(() => {
+    const queryParams =
+      "/orders?pagination[pageSize]=2000&populate=*&sort=order_number:desc" +
+      (isAdmin ? "" : `&[filters][users_permissions_user][id]=${userId}`);
     axios
       .get(process.env.REACT_APP_API_URL + queryParams, {
         headers: {
@@ -25,33 +21,13 @@ const Dashboard = () => {
       })
       .then((response) => {
         setLeads(response.data.data);
-        /* setMeta(response.data.meta); */
-        console.log("response: ", response.data);
+        console.log("responseS: ", response.data);
       })
       .catch((error) => {
         setError(error);
         console.log(error);
       });
-  }, [queryParams, userToken]);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/me?populate=role`, {
-        headers: {
-          Authorization: "Bearer " + userToken,
-        },
-      })
-      .then((response) => {
-        response.data.role.type === "admin"
-          ? setIsAdmin(true)
-          : setIsAdmin(false);
-
-        setUserid(response.data.id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [userToken]);
+  }, [isAdmin, userToken, userId]);
 
   return (
     <>

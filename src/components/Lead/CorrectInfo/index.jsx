@@ -18,12 +18,12 @@ const CorrectInfo = ({ id }) => {
   const [value2, setValue2] = useState(false);
   const [value3, setValue3] = useState(false);
   const [formValues, setFormValues] = useState({});
-  const [formData, setFormData] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
 
   const handleSubmit = (event) => {
+    const userToken = getToken();
     event.preventDefault();
-    const newFormData = [...formData]; // создаем копию массива данных формы
+    const newFormData = []; // создаем копию массива данных формы
     const formElements = event.target.elements; // получаем элементы формы
     const formDataObject = {}; // создаем объект для хранения данных формы
 
@@ -36,32 +36,32 @@ const CorrectInfo = ({ id }) => {
     }
 
     newFormData.push(formDataObject); // добавляем объект с данными формы в массив
-    setFormData(newFormData); // обновляем состояние компонента с новым массивом данных формы\
-  };
 
-  const updateData = async (formData, id) => {
-    const userToken = getToken();
-    try {
-      await axios.put(
+    axios
+      .put(
         `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
+        {
+          data: {
+            id: id,
+            order_status: valueStatus,
+            correct_info: newFormData[0],
+          },
+        },
         {
           headers: {
             Authorization: "Bearer " + userToken,
           },
-          data: {
-            id: id,
-            order_status: valueStatus,
-            correct_info: formData[formData.length - 1],
-          },
         }
-      );
-      setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 3000); // выводим ответ сервера в консоль
-    } catch (error) {
-      console.error(error);
-    }
+      )
+      .then((response) => {
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleChange = (e) => {
@@ -80,10 +80,6 @@ const CorrectInfo = ({ id }) => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const submitBtnClick = (e) => {
-    updateData(formData, id);
   };
 
   return (
@@ -185,7 +181,9 @@ const CorrectInfo = ({ id }) => {
                     <Input
                       name="model"
                       value={
-                        formValues.model || data?.attributes.correct_info.model
+                        formValues.model !== ""
+                          ? data?.attributes.correct_info.model
+                          : ""
                       }
                       onChange={handleInputChange}
                       label="Модель"
@@ -375,9 +373,7 @@ const CorrectInfo = ({ id }) => {
                 Изменения успешно сохранены
               </Alert>
               <div className="col-span-6 sm:col-full">
-                <Button type="submit" onClick={submitBtnClick}>
-                  Сохранить
-                </Button>
+                <Button type="submit">Сохранить</Button>
               </div>
             </form>
           </div>

@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { strapiLogin, setToken } from "../../helpers";
 import { useNavigate } from "react-router";
+import { Alert } from "@material-tailwind/react";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [user, setUser] = useState(false);
   let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const data = await strapiLogin(identifier, password);
-      console.log('data: ', data);
+      console.log("data: ", data);
       setToken(data.jwt);
       setUser(true);
       window.location.reload();
     } catch (error) {
+      setError(error);
       console.log(error);
     }
   };
@@ -70,6 +74,16 @@ const Login = () => {
               />
             </div>
           </div>
+
+          <Alert
+            variant="filled"
+            className={`${error === "" && "hidden"} mb-5`}
+            color="red"
+          >
+            {error.code === "ERR_BAD_REQUEST"
+              ? "Неправильный логин или пароль"
+              : "Неизвестная ошибка"}
+          </Alert>
 
           <div>
             <button
