@@ -19,6 +19,7 @@ import UseFetch from "../../hooks/useFetch";
 import { getToken } from "../../helpers";
 import axios from "axios";
 import Client from "./Client/Client";
+import Master from "./Master/Master";
 
 const Lead = () => {
   const leadId = parseInt(useParams().id);
@@ -54,33 +55,45 @@ const Lead = () => {
   const tabs = [
     {
       label: "Редактирование",
+      onlyAdmin: false,
       value: "correct",
       component: <CorrectInfo id={leadId} data={data} />,
     },
     {
       label: "Клиент",
+      onlyAdmin: false,
       value: "client",
       component: <Client id={leadId} data={data} />,
     },
     {
       label: "Вложения",
+      onlyAdmin: false,
       value: "attachments",
       component: <Attachments id={leadId} data={data} />,
     },
     {
       label: "Запчасти",
+      onlyAdmin: false,
       value: "spare-parts",
       component: <Parts id={leadId} data={data} />,
     },
     {
       label: "Связь",
+      onlyAdmin: false,
       value: "connection",
       component: <Telephony id={leadId} />,
     },
     {
       label: "Чат",
+      onlyAdmin: false,
       value: "chat",
       component: <Chat id={leadId} />,
+    },
+    {
+      label: "Мастер",
+      onlyAdmin: true,
+      value: "master",
+      component: <Master id={leadId} isAdmin={isAdmin} />,
     },
   ];
 
@@ -107,23 +120,31 @@ const Lead = () => {
           isAdmin ? (
             <Tabs value="correct">
               <TabsHeader>
-                {tabs?.map(({ label, value, index }) => (
-                  <Tab
-                    key={value}
-                    value={value}
-                    className="text-gray-600"
-                    active={index === 0 ? "active" : ""}
-                  >
-                    {label}
-                  </Tab>
-                ))}
+                {tabs?.map(({ label, value, index, onlyAdmin }) =>
+                  isAdmin || !onlyAdmin ? (
+                    <Tab
+                      key={value}
+                      value={value}
+                      className="text-gray-600"
+                      active={index === 0 ? "active" : ""}
+                    >
+                      {label}
+                    </Tab>
+                  ) : (
+                    ""
+                  )
+                )}
               </TabsHeader>
               <TabsBody>
-                {tabs?.map(({ value, component }) => (
-                  <TabPanel key={value} value={value} className="p-0">
-                    {component}
-                  </TabPanel>
-                ))}
+                {tabs?.map(({ value, component, onlyAdmin }) =>
+                  isAdmin || !onlyAdmin ? (
+                    <TabPanel key={value} value={value} className="p-0">
+                      {component}
+                    </TabPanel>
+                  ) : (
+                    ""
+                  )
+                )}
               </TabsBody>
             </Tabs>
           ) : (
