@@ -8,6 +8,7 @@ const Master = ({ isAdmin, id }) => {
   const userToken = getToken();
   const [allMasters, setAllMasters] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
@@ -56,6 +57,11 @@ const Master = ({ isAdmin, id }) => {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
     }
   };
 
@@ -84,7 +90,16 @@ const Master = ({ isAdmin, id }) => {
               >
                 Изменения успешно сохранены
               </Alert>
-              <Button type="submit">Сохранить</Button>
+              <Alert
+                variant="filled"
+                className={`${!error && "hidden"} mt-5`}
+                color="red"
+              >
+                Выберите мастера
+              </Alert>
+              <Button type="submit" className="mt-4">
+                Сохранить
+              </Button>
             </form>
           ) : (
             "У вас нет доступа к этому разделу"

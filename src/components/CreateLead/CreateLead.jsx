@@ -372,7 +372,7 @@ const CreateLead = () => {
                   variant="filled"
                   className={`${!showMessage && "hidden"} mb-5`}
                 >
-                  Изменения успешно сохранены
+                  Новый наряд успешно создан
                 </Alert>
                 <div className="col-span-6 sm:col-full">
                   <Button type="submit">Сохранить</Button>
