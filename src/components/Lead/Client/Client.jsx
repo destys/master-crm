@@ -122,6 +122,7 @@ const Client = ({ id }) => {
               name="phone"
               defaultValue={client?.attributes.phone}
               onChange={handleInputChange}
+              disabled
             />
           </div>
           <div className="col-span-2">

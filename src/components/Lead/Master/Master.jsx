@@ -33,22 +33,25 @@ const Master = ({ isAdmin, id }) => {
         enterId = item.dataset.id;
       }
     });
-    console.log("enterId: ", enterId);
 
     if (enterId !== null) {
       axios
-        .put(`https://snurinoothe.beget.app/api/orders/${id}`, {
-          headers: {
-            Authorization: "Bearer " + userToken,
-          },
-          data: {
-            users_permissions_user: {
-              id: enterId,
+        .put(
+          `https://snurinoothe.beget.app/api/orders/${id}`,
+          {
+            data: {
+              users_permissions_user: {
+                id: enterId,
+              },
             },
           },
-        })
+          {
+            headers: {
+              Authorization: "Bearer " + userToken,
+            },
+          }
+        )
         .then((response) => {
-          console.log("response: ", response);
           setShowMessage(true);
           setTimeout(() => {
             setShowMessage(false);

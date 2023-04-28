@@ -21,7 +21,6 @@ const Dashboard = ({ isAdmin, userId }) => {
       })
       .then((response) => {
         setLeads(response.data.data);
-        console.log("responseS: ", response.data);
       })
       .catch((error) => {
         setError(error);

@@ -119,7 +119,7 @@ const CreateLead = () => {
         <div className="block w-full relative bg-transparent overflow-hidden">
           <div className="mt-8">
             <div className="bg-white mb-6">
-              <h3 className="mb-4 text-xl font-bold">Создать новый заказ</h3>
+              <h3 className="mb-4 text-xl font-bold">Создать новый наряд</h3>
               <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="grid grid-cols-6 gap-3">
                   <div className="col-span-6 mb-6 p-3 border rounded">

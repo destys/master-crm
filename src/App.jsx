@@ -9,9 +9,9 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import CreateLead from "./components/CreateLead/CreateLead";
 import Lead from "./components/Lead/Lead";
 import Clients from "./pages/Clients/Clients";
-import Phone from "./pages/Phone/Phone";
 import NewOrders from "./pages/Dashboard/NewOrders";
 import axios from "axios";
+import Telephony from "./pages/Telephony/Telephony";
 
 function App() {
   const userToken = getToken();
@@ -60,7 +60,7 @@ function App() {
               element={<NewOrders isAdmin={isAdmin} userId={userId} />}
             />
             <Route path="/clients" element={<Clients />} />
-            <Route path="/telephony" element={<Phone />} />
+            <Route path="/telephony" element={<Telephony />} />
             <Route path="/createlead" element={<CreateLead />} />
             <Route path="/lead/:id" element={<Lead />} />
           </Routes>
