@@ -44,7 +44,7 @@ function App() {
     <>
       {isLogged ? (
         <div className="flex flex-no-wrap min-h-screen">
-          <Sidebar />
+          <Sidebar isAdmin={isAdmin} />
           <div className="w-80 min-w-[320px] hidden sm:block"></div>
           <Routes>
             <Route
