@@ -6,7 +6,21 @@ const LeadItemRow = ({ item }) => {
 
   return (
     <>
-      <tr className="h-24 border border-gray-100 ">
+      <tr
+        className={`h-24 border border-gray-100 ${
+          item.attributes.order_status === "Новый"
+            ? "bg-green-100 hover:bg-green-200"
+            : item.attributes.order_status === "Принят"
+            ? "bg-yellow-100 hover:bg-yellow-200"
+            : item.attributes.order_status === "В работе"
+            ? "bg-yellow-100 hover:bg-yellow-200"
+            : item.attributes.order_status === "Согласовано"
+            ? "bg-yellow-100 hover:bg-yellow-200"
+            : item.attributes.order_status === "Готов"
+            ? "bg-gray-100 hover:bg-gray-200"
+            : "bg-red-100 hover:bg-red-200"
+        }`}
+      >
         <td>
           <Link to={`/lead/${id}`} className="flex items-center pl-5">
             <p className="text-base font-medium leading-none text-gray-700 mr-2">
@@ -16,21 +30,7 @@ const LeadItemRow = ({ item }) => {
         </td>
         <td className="pl-5">
           <div className="flex items-center">
-            <p
-              className={`text-sm leading-none text-gray-600 py-3 px-5  rounded  focus:outline-none ${
-                item.attributes.order_status === "Новый"
-                  ? "bg-green-100 hover:bg-green-200"
-                  : item.attributes.order_status === "Принят"
-                  ? "bg-yellow-100 hover:bg-yellow-200"
-                  : item.attributes.order_status === "В работе"
-                  ? "bg-yellow-100 hover:bg-yellow-200"
-                  : item.attributes.order_status === "Согласовано"
-                  ? "bg-yellow-100 hover:bg-yellow-200"
-                  : item.attributes.order_status === "Готов"
-                  ? "bg-gray-100 hover:bg-gray-200"
-                  : "bg-red-100 hover:bg-red-200"
-              }`}
-            >
+            <p className="text-sm leading-none text-gray-600 py-3 px-5  rounded  focus:outline-none">
               {item.attributes.order_status}
             </p>
           </div>
@@ -76,7 +76,9 @@ const LeadItemRow = ({ item }) => {
         <td className="pl-5">
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
-              <Link to={`tel:${item.attributes.client?.data?.attributes.phone}`}>
+              <Link
+                to={`tel:${item.attributes.client?.data?.attributes.phone}`}
+              >
                 {item.attributes.client?.data?.attributes.phone}
               </Link>
             </p>

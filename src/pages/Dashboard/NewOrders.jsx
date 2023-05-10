@@ -3,6 +3,7 @@ import LeadItemRow from "../../components/Lead/LeadItemRow";
 
 import axios from "axios";
 import { getToken } from "../../helpers";
+import { Input } from "@material-tailwind/react";
 
 const NewOrders = ({ isAdmin, userId }) => {
   const userToken = getToken();
@@ -31,6 +32,24 @@ const NewOrders = ({ isAdmin, userId }) => {
         console.log(error);
       });
   }, [userToken, isAdmin, userId]);
+  const searchLeads = (e) => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/orders?populate=*&filters[$or][0][order_number][$contains]=${e.target.value}&filters[$or][1][client][phone][$contains]=${e.target.value}`,
+        {
+          headers: {
+            Authorization: "Bearer " + userToken,
+          },
+        }
+      )
+      .then((response) => {
+        setLeads(response.data.data);
+      })
+      .catch((error) => {
+        setError(error);
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -45,20 +64,9 @@ const NewOrders = ({ isAdmin, userId }) => {
                   <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
                     Наряды
                   </p>
-                  {/* <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
-                    <p>Сортировать по:</p>
-                    <select className="focus:outline-none bg-transparent ml-1">
-                      <option className="text-sm text-indigo-800">
-                        Сначала новые
-                      </option>
-                      <option className="text-sm text-indigo-800">
-                        Сначала старые
-                      </option>
-                      <option className="text-sm text-indigo-800">
-                        Просроченные
-                      </option>
-                    </select>
-                  </div> */}
+                  <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+                    <Input label="Поиск" onChange={searchLeads} />
+                  </div>
                 </div>
               </div>
               <div className="bg-white">
