@@ -13,7 +13,7 @@ const LeadItemRow = ({ item }) => {
             : item.attributes.order_status === "Принят"
             ? "bg-pink-50 hover:bg-pink-100"
             : item.attributes.order_status === "Согласовано"
-            ? "bg-orange-50 hover:bg-orange-100"
+            ? "bg-orange-400 hover:bg-orange-500"
             : item.attributes.order_status === "В работе"
             ? "bg-orange-100 hover:bg-orange-200"
             : item.attributes.order_status === "Готов"
