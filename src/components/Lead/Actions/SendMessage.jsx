@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -7,12 +7,153 @@ import {
   DialogFooter,
   Input,
   Textarea,
+  Alert,
 } from "@material-tailwind/react";
+import axios from "axios";
+import { getToken } from "../../../helpers";
 
-const SendMessage = () => {
+const SendMessage = ({ client, userName, leadId }) => {
+  var currentDate = new Date();
+  var formattedDate =
+    ("0" + currentDate.getDate()).slice(-2) +
+    "." +
+    ("0" + (currentDate.getMonth() + 1)).slice(-2) +
+    "." +
+    currentDate.getFullYear() +
+    " " +
+    ("0" + currentDate.getHours()).slice(-2) +
+    ":" +
+    ("0" + currentDate.getMinutes()).slice(-2) +
+    ":" +
+    ("0" + currentDate.getSeconds()).slice(-2);
+
+  const userToken = getToken();
   const [open, setOpen] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [msgContent, setMsgContent] = useState("");
+  const [smsText, setSmsText] = useState("");
+  const [smsList, setSmsList] = useState([]);
 
   const handleOpen = () => setOpen(!open);
+
+  const urlPostBalance = "https://app.mango-office.ru/vpbx/commands/sms";
+  const apiKey = "ug8gw0jvvjtson18s8k99jbjed6snptb";
+  const apiSalt = "crwyja1jy42t9gjkz3yenyhzi5xvczrb";
+
+  const getSHA256Hash = async (input) => {
+    const textAsBuffer = new TextEncoder().encode(input);
+
+    const hashBuffer = await window.crypto.subtle.digest(
+      "SHA-256",
+      textAsBuffer
+    );
+
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    const hash = hashArray
+
+      .map((item) => item.toString(16).padStart(2, "0"))
+
+      .join("");
+
+    return hash;
+  };
+
+  async function fetchData(e) {
+    e.preventDefault();
+    const dataToPost = {
+      command_id: "stat",
+      text: smsText,
+      from_extension: 1,
+      to_number: client.data?.attributes.phone.replace(/\D/g, ""), // MDeveloper
+      sms_sender: "ООО Гарант",
+    };
+
+    const json = JSON.stringify(dataToPost);
+
+    const signHash = await getSHA256Hash(apiKey + json + apiSalt);
+
+    const response = await axios.post(
+      urlPostBalance,
+
+      {
+        vpbx_api_key: apiKey,
+
+        sign: signHash,
+
+        json: json,
+      },
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }
+    );
+
+    const data = await response.data;
+    if (data.result === 1000) {
+      setShowMessage(true);
+      setMsgContent("Сообщение успешно отправлено");
+
+      const sms_list = {
+        date: formattedDate,
+        text: smsText,
+        sender: userName,
+      };
+
+      console.log("sms_list: ", sms_list);
+      axios
+        .put(
+          `https://snurinoothe.beget.app/api/orders/${leadId}?populate=sms_list`,
+          {
+            data: {
+              sms_list: [...smsList, sms_list],
+            },
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + userToken,
+            },
+          }
+        )
+        .then((response) => {
+          setSmsList(data?.data?.attributes.sms_list);
+          setShowMessage(true);
+          setTimeout(() => {
+            setShowMessage(false);
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      setTimeout(() => {
+        setShowMessage(false);
+        setOpen(false);
+      }, 3000);
+    } else {
+      setShowMessage(true);
+      setMsgContent(`Ошибка при отправке сообщения. Код ошибки ${data.result}`);
+    }
+
+    return await data;
+  }
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/orders/${leadId}?populate=sms_list`,
+        {
+          headers: {
+            Authorization: "Bearer " + userToken,
+          },
+        }
+      )
+      .then((response) => {
+        setSmsList(response.data?.data?.attributes.sms_list);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [userToken, leadId]);
 
   return (
     <div>
@@ -33,15 +174,33 @@ const SendMessage = () => {
             />
           </svg>
         </Button>
-        <Dialog open={open} size={'sm'} handler={handleOpen}>
+        <Dialog open={open} size={"sm"} handler={handleOpen}>
           <DialogHeader>Отправить сообщение клиенту.</DialogHeader>
           <DialogBody divider>
-            <form className="mt-8 mb-2 w-full max-w-screen-lg">
+            <form
+              className="mt-8 mb-2 w-full max-w-screen-lg"
+              onSubmit={fetchData}
+            >
               <div className="mb-4 flex flex-col gap-6">
-                <Input size="lg" label="Телефон" />
-                <Textarea size="lg" label="Сообщение" />
+                <Input
+                  size="lg"
+                  label="Телефон"
+                  defaultValue={client?.data?.attributes.phone}
+                  disabled
+                />
+                <Textarea
+                  size="lg"
+                  label="Сообщение"
+                  onChange={(e) => setSmsText(e.target.value)}
+                />
               </div>
-              <Button className="mt-6" fullWidth>
+              <Alert
+                variant="filled"
+                className={`${!showMessage && "hidden"} mb-5`}
+              >
+                {msgContent}
+              </Alert>
+              <Button className="mt-6" fullWidth type="submit">
                 Отправить
               </Button>
             </form>

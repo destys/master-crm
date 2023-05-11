@@ -12,7 +12,7 @@ const Dashboard = ({ isAdmin, userId }) => {
 
   useEffect(() => {
     const queryParams =
-      "/orders?pagination[pageSize]=2000&populate=*&sort=publishedAt:desc&filters[$and][0][order_status][$ne]=Готов" +
+      "/orders?pagination[pageSize]=2000&populate=*&sort=publishedAt:desc&filters[$and][0][order_status][$ne]=фыв" +
       (isAdmin
         ? ""
         : `&filters[$and][1][users_permissions_user][id]=${userId}`);

@@ -2,8 +2,10 @@ import { Alert, Button, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import TableRow from "./TableRow";
 import axios from "axios";
+import { getToken } from "../../../helpers";
 
 const Attachments = ({ id, data }) => {
+  const userToken = getToken();
   const [file, setFile] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -27,7 +29,12 @@ const Attachments = ({ id, data }) => {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/upload`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + userToken,
+          },
+        }
       );
       currentUploads.push(res.data[0].id);
       await axios.put(
@@ -35,6 +42,11 @@ const Attachments = ({ id, data }) => {
         {
           data: {
             order_files: currentUploads,
+          },
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + userToken,
           },
         }
       );

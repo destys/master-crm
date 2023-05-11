@@ -12,7 +12,7 @@ import CorrectInfo from "./CorrectInfo";
 import Actions from "./Actions";
 import Attachments from "./Attachments";
 import Parts from "./Parts";
-import Telephony from "./Telephony";
+import Telephony from "./Telephony/Telephony";
 import Chat from "./Chat";
 import { useParams } from "react-router";
 import UseFetch from "../../hooks/useFetch";
@@ -24,6 +24,7 @@ import Master from "./Master/Master";
 const Lead = () => {
   const leadId = parseInt(useParams().id);
   const [userId, setUserId] = useState(0);
+  const [userName, setUserName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,9 @@ const Lead = () => {
       .then((response) => {
         setLoading(true);
         setUserId(response.data.id);
+        setUserName(
+          `${response.data?.name} ${response.data?.last_name}`
+        );
         response.data.role.type === "admin"
           ? setIsAdmin(true)
           : setIsAdmin(false);
@@ -81,7 +85,7 @@ const Lead = () => {
       label: "Связь",
       onlyAdmin: false,
       value: "connection",
-      component: <Telephony id={leadId} />,
+      component: <Telephony id={leadId} data={data} />,
     },
     {
       label: "Чат",
@@ -112,7 +116,11 @@ const Lead = () => {
           </div>
           {data?.attributes.users_permissions_user?.data?.id === userId ||
           isAdmin ? (
-            <Actions />
+            <Actions
+              client={data?.attributes.client}
+              leadId={leadId}
+              userName={userName}
+            />
           ) : (
             "У вас нет доступа к данному заказу"
           )}

@@ -110,6 +110,7 @@ const CorrectInfo = ({ id }) => {
                       <Option value="Готов">Готов</Option>
                       <Option value="Отказ">Отказ</Option>
                       <Option value="У Борисыча">У Борисыча</Option>
+                      <Option value="Выдан">Выдан</Option>
                     </Select>
                   </div>
                   <div className="w-full mb-4">
