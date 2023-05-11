@@ -58,15 +58,6 @@ const CreateLead = () => {
             `https://snurinoothe.beget.app/api/orders/`,
             {
               data: {
-                order_number:
-                  "HM-" +
-                  nowDate.getDate() +
-                  (nowDate.getMonth() + 1) +
-                  nowDate.getYear() +
-                  "-" +
-                  nowDate.getHours() +
-                  nowDate.getMinutes() +
-                  nowDate.getSeconds(),
                 order_status: valueStatus,
                 correct_info: newFormData[0],
                 client: {
@@ -81,10 +72,38 @@ const CreateLead = () => {
             }
           )
           .then((response) => {
-            setShowMessage(true);
-            setTimeout(() => {
-              setShowMessage(false);
-            }, 3000);
+            console.log('response: ', response);
+            axios
+              .put(
+                `https://snurinoothe.beget.app/api/orders/${response.data.data.id}`,
+                {
+                  data: {
+                    order_number:
+                      "VO-" +
+                      nowDate.getDate() +
+                      (nowDate.getMonth() + 1 < 10
+                        ? "0" + (nowDate.getMonth() + 1)
+                        : nowDate.getMonth() + 1) +
+                      nowDate.getFullYear().toString().substr(2, 2) +
+                      "-" +
+                      response.data.data.id,
+                  },
+                },
+                {
+                  headers: {
+                    Authorization: "Bearer " + userToken,
+                  },
+                }
+              )
+              .then((response) => {
+                setShowMessage(true);
+                setTimeout(() => {
+                  setShowMessage(false);
+                }, 3000);
+              })
+              .error((error) => {
+                console.log(error);
+              });
           })
           .catch((error) => {
             console.log("error orders:", error);
