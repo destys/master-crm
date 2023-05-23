@@ -42,9 +42,7 @@ const Lead = () => {
       .then((response) => {
         setLoading(true);
         setUserId(response.data.id);
-        setUserName(
-          `${response.data?.name} ${response.data?.last_name}`
-        );
+        setUserName(`${response.data?.name} ${response.data?.last_name}`);
         response.data.role.type === "admin"
           ? setIsAdmin(true)
           : setIsAdmin(false);
@@ -120,6 +118,7 @@ const Lead = () => {
               client={data?.attributes.client}
               leadId={leadId}
               userName={userName}
+              lead={data}
             />
           ) : (
             "У вас нет доступа к данному заказу"

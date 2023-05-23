@@ -1,13 +1,52 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import {
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
   Button,
+  Dialog,
+  DialogBody,
 } from "@material-tailwind/react";
+import { pdfjs } from "react-pdf";
+import Contract from "../../Docs/Contract";
+import WarrantyCoupon from "../../Docs/WarrantyCoupon";
+import ActOfCompleted from "../../Docs/ActOfCompleted";
 
-const Print = () => {
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+const Print = ({ lead }) => {
+  const [open, setOpen] = useState(false);
+  const [showContract, setShowContract] = useState(false);
+  const [showWarranty, setShowWarranty] = useState(false);
+  const [showAct, setShowAct] = useState(false);
+
+  const disableDocs = () => {
+    setShowContract(false);
+    setShowWarranty(false);
+    setShowAct(false);
+  };
+
+  const handleShowContract = () => {
+    disableDocs();
+    setShowContract(true);
+    handleOpen();
+  };
+
+  const handleShowWarranty = () => {
+    disableDocs();
+    setShowWarranty(true);
+    handleOpen();
+  };
+
+  const handleShowAct = () => {
+    disableDocs();
+    setShowAct(true);
+    handleOpen();
+  };
+
+  const handleOpen = () => setOpen(!open);
+
   return (
     <div>
       <Menu>
@@ -31,12 +70,22 @@ const Print = () => {
           </Button>
         </MenuHandler>
         <MenuList>
-          <MenuItem>Квитанция</MenuItem>
-          <MenuItem>Акт Scarlett</MenuItem>
-          <MenuItem>Акт Polaris</MenuItem>
-          <MenuItem>Приходный ордер КО-1</MenuItem>
+          <MenuItem onClick={handleShowContract}>
+            Договор на оказание услуг
+          </MenuItem>
+          <MenuItem onClick={handleShowWarranty}>Гарантийный талон</MenuItem>
+          <MenuItem onClick={handleShowAct}>Акт выполненных работ </MenuItem>
         </MenuList>
       </Menu>
+      <Fragment>
+        <Dialog open={open} handler={handleOpen}>
+          <DialogBody divider>
+            {showContract && <Contract lead={lead} />}
+            {showWarranty && <WarrantyCoupon lead={lead} />}
+            {showAct && <ActOfCompleted lead={lead} />}
+          </DialogBody>
+        </Dialog>
+      </Fragment>
     </div>
   );
 };
