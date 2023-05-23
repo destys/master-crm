@@ -9,15 +9,15 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import CreateLead from "./components/CreateLead/CreateLead";
 import Lead from "./components/Lead/Lead";
 import Clients from "./pages/Clients/Clients";
-import NewOrders from "./pages/Dashboard/NewOrders";
 import axios from "axios";
-import Telephony from "./pages/Telephony/Telephony";
 
 function App() {
   const userToken = getToken();
   const [isLogged, setIsLogged] = useState(false);
   const [userId, setUserid] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userBalance, setUserBalance] = useState(0);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     axios
@@ -27,6 +27,9 @@ function App() {
         },
       })
       .then((response) => {
+        setUserBalance(response.data.balance);
+        setUserName(response.data.name + " " + response.data.last_name);
+
         response.data.role.type === "admin"
           ? setIsAdmin(true)
           : setIsAdmin(false);
@@ -49,20 +52,57 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Dashboard isAdmin={isAdmin} userId={userId} />}
+              element={
+                <Dashboard
+                  isAdmin={isAdmin}
+                  userId={userId}
+                  userBalance={userBalance}
+                  filterRow="[0][order_status][$ne]=Готов"
+                />
+              }
             />
             <Route
               path="/dashboard"
-              element={<Dashboard isAdmin={isAdmin} userId={userId} />}
+              element={
+                <Dashboard
+                  isAdmin={isAdmin}
+                  userId={userId}
+                  userBalance={userBalance}
+                  filterRow="[0][order_status][$ne]=Готов"
+                />
+              }
             />
             <Route
               path="/new"
-              element={<NewOrders isAdmin={isAdmin} userId={userId} />}
+              element={
+                <Dashboard
+                  isAdmin={isAdmin}
+                  userId={userId}
+                  userBalance={userBalance}
+                  filterRow="[0][order_status][$eq]=Новый"
+                />
+              }
+            />
+            <Route
+              path="/check"
+              element={
+                <Dashboard
+                  isAdmin={isAdmin}
+                  userId={userId}
+                  userName={userName}
+                  filterRow="[0][order_status][$eq]=Выдан"
+                />
+              }
             />
             <Route path="/clients" element={<Clients />} />
-            <Route path="/telephony" element={<Telephony />} />
+            {/* <Route path="/telephony" element={<Telephony />} /> */}
             <Route path="/createlead" element={<CreateLead />} />
-            <Route path="/lead/:id" element={<Lead />} />
+            <Route
+              path="/lead/:id"
+              element={
+                <Lead isAdmin={isAdmin} userId={userId} userName={userName} />
+              }
+            />
           </Routes>
         </div>
       ) : (

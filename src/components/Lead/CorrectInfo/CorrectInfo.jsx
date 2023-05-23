@@ -11,7 +11,7 @@ import UseFetch from "../../../hooks/useFetch";
 import axios from "axios";
 import { getToken } from "../../../helpers";
 
-const CorrectInfo = ({ id }) => {
+const CorrectInfo = ({ id, isAdmin }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
 
   const [valueStatus, setValueStatus] = useState(data?.attributes.order_status);
@@ -107,10 +107,10 @@ const CorrectInfo = ({ id }) => {
                       <Option value="Принят">Принят</Option>
                       <Option value="Согласовано">Согласовано</Option>
                       <Option value="В работе">В работе</Option>
-                      <Option value="Готов">Готов</Option>
                       <Option value="Отказ">Отказ</Option>
                       <Option value="У Борисыча">У Борисыча</Option>
                       <Option value="Выдан">Выдан</Option>
+                      {isAdmin && <Option value="Готов">Готов</Option>}
                     </Select>
                   </div>
                   <div className="w-full mb-4">
@@ -139,7 +139,9 @@ const CorrectInfo = ({ id }) => {
                     >
                       <Option value="Выездной">Выездной</Option>
                       <Option value="Доставка">Доставка</Option>
-                      <Option value="Доставка в стационар">Доставка в стационар</Option>
+                      <Option value="Доставка в стационар">
+                        Доставка в стационар
+                      </Option>
                     </Select>
                   </div>
                   <div className="absolute">

@@ -5,14 +5,15 @@ import axios from "axios";
 import { getToken } from "../../helpers";
 import { Input } from "@material-tailwind/react";
 
-const Dashboard = ({ isAdmin, userId }) => {
+const Dashboard = ({ isAdmin, userId, userBalance, filterRow }) => {
+  console.log("filterRow: ", filterRow);
   const userToken = getToken();
   const [leads, setLeads] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const queryParams =
-      "/orders?pagination[pageSize]=2000&populate=*&sort=publishedAt:desc&filters[$and][0][order_status][$ne]=фыв" +
+      `/orders?pagination[pageSize]=2000&populate=*&sort=publishedAt:desc&filters[$and]${filterRow}` +
       (isAdmin
         ? ""
         : `&filters[$and][1][users_permissions_user][id]=${userId}`);
@@ -29,7 +30,7 @@ const Dashboard = ({ isAdmin, userId }) => {
         setError(error);
         console.log(error);
       });
-  }, [isAdmin, userToken, userId]);
+  }, [isAdmin, userToken, userId, filterRow]);
 
   const searchLeads = (e) => {
     axios
@@ -59,9 +60,12 @@ const Dashboard = ({ isAdmin, userId }) => {
           <div className="w-full h-full rounded ">
             <div className="w-full">
               <div className="px-4 py-0 md:py-7">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-10">
                   <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
                     Наряды
+                  </p>
+                  <p className="ml-auto py-3 px-4 bg-green-100 rounded">
+                    {userBalance || 0} руб.
                   </p>
                   <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
                     <Input label="Поиск" onChange={searchLeads} />
