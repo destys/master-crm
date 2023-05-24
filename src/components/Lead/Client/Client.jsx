@@ -2,6 +2,7 @@ import { Alert, Button, Input } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getToken } from "../../../helpers";
+import { Link } from "react-router-dom";
 
 const Client = ({ id }) => {
   const userToken = getToken();
@@ -104,6 +105,8 @@ const Client = ({ id }) => {
     }));
   };
 
+  const formatedPhone = client?.attributes.phone.replace(/\D/g, "").replace(/^./g, '7');
+
   return (
     <div className="mt-8">
       <form onSubmit={(event) => handleSubmit(event)}>
@@ -133,6 +136,24 @@ const Client = ({ id }) => {
               onChange={handleInputChange}
             />
           </div>
+        </div>
+
+        <div className="flex gap-5 mt-5 mb-5">
+          <Button>
+            <Link to={`https://wa.me/${formatedPhone}`} target="_blank">
+              WhatsApp
+            </Link>
+          </Button>
+          <Button>
+            <Link to={`https://t.me/+${formatedPhone}`} target="_blank">
+              Telegram
+            </Link>
+          </Button>
+          <Button>
+            <Link to={`viber://chat?number=${formatedPhone}`} target="_blank">
+              Viber
+            </Link>
+          </Button>
         </div>
 
         <Alert variant="filled" className={`${!showMessage && "hidden"} mt-5`}>

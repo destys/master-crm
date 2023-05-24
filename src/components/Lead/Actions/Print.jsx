@@ -12,6 +12,7 @@ import { pdfjs } from "react-pdf";
 import Contract from "../../Docs/Contract";
 import WarrantyCoupon from "../../Docs/WarrantyCoupon";
 import ActOfCompleted from "../../Docs/ActOfCompleted";
+import TechnicalConclusion from "../../Docs/TechnicalConclusion";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -20,6 +21,7 @@ const Print = ({ lead }) => {
   const [showContract, setShowContract] = useState(false);
   const [showWarranty, setShowWarranty] = useState(false);
   const [showAct, setShowAct] = useState(false);
+  const [showTechConclusion, setShowTechConclusion] = useState(false);
 
   const disableDocs = () => {
     setShowContract(false);
@@ -30,6 +32,12 @@ const Print = ({ lead }) => {
   const handleShowContract = () => {
     disableDocs();
     setShowContract(true);
+    handleOpen();
+  };
+
+  const handleShowTechConclusion = () => {
+    disableDocs();
+    setShowTechConclusion(true);
     handleOpen();
   };
 
@@ -73,6 +81,9 @@ const Print = ({ lead }) => {
           <MenuItem onClick={handleShowContract}>
             Договор на оказание услуг
           </MenuItem>
+          <MenuItem onClick={handleShowTechConclusion}>
+            Акт технического заключения
+          </MenuItem>
           <MenuItem onClick={handleShowWarranty}>Гарантийный талон</MenuItem>
           <MenuItem onClick={handleShowAct}>Акт выполненных работ </MenuItem>
         </MenuList>
@@ -83,6 +94,7 @@ const Print = ({ lead }) => {
             {showContract && <Contract lead={lead} />}
             {showWarranty && <WarrantyCoupon lead={lead} />}
             {showAct && <ActOfCompleted lead={lead} />}
+            {showTechConclusion && <TechnicalConclusion lead={lead} />}
           </DialogBody>
         </Dialog>
       </Fragment>
