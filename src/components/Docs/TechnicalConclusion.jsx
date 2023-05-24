@@ -17,7 +17,6 @@ Font.register({
 });
 
 const TechnicalConclusion = ({ lead }) => {
-  console.log("lead: ", lead);
   const nowDate = new Date().toLocaleDateString("ru-RU");
 
   // Create styles

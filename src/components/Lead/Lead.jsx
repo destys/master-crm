@@ -11,13 +11,12 @@ import {
 import CorrectInfo from "./CorrectInfo/CorrectInfo";
 import Actions from "./Actions";
 import Attachments from "./Attachments";
-import Parts from "./Parts";
 import Telephony from "./Telephony/Telephony";
-import Chat from "./Chat";
 import { useParams } from "react-router";
 import UseFetch from "../../hooks/useFetch";
 import Client from "./Client/Client";
 import Master from "./Master/Master";
+import Accounting from "./Accounting/Accounting";
 
 const Lead = ({ isAdmin, userId, userName }) => {
   const leadId = parseInt(useParams().id);
@@ -29,7 +28,13 @@ const Lead = ({ isAdmin, userId, userName }) => {
       label: "Редактирование",
       onlyAdmin: false,
       value: "correct",
-      component: <CorrectInfo id={leadId} data={data} isAdmin={isAdmin} />,
+      component: (
+        <CorrectInfo
+          id={leadId}
+          data={data}
+          isAdmin={isAdmin}
+        />
+      ),
     },
     {
       label: "Клиент",
@@ -43,12 +48,12 @@ const Lead = ({ isAdmin, userId, userName }) => {
       value: "attachments",
       component: <Attachments id={leadId} data={data} />,
     },
-    {
+    /* {
       label: "Запчасти",
       onlyAdmin: false,
       value: "spare-parts",
       component: <Parts id={leadId} data={data} />,
-    },
+    }, */
     {
       label: "Связь",
       onlyAdmin: false,
@@ -56,11 +61,17 @@ const Lead = ({ isAdmin, userId, userName }) => {
       component: <Telephony id={leadId} data={data} />,
     },
     {
+      label: "Бухгалтерия",
+      onlyAdmin: false,
+      value: "accounting",
+      component: <Accounting id={leadId} data={data} />,
+    },
+    /* {
       label: "Чат",
       onlyAdmin: false,
       value: "chat",
       component: <Chat id={leadId} />,
-    },
+    }, */
     {
       label: "Мастер",
       onlyAdmin: true,

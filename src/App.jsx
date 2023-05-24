@@ -89,7 +89,7 @@ function App() {
                 <Dashboard
                   isAdmin={isAdmin}
                   userId={userId}
-                  userName={userName}
+                  userBalance={userBalance}
                   filterRow="[0][order_status][$eq]=Выдан"
                 />
               }
@@ -100,7 +100,11 @@ function App() {
             <Route
               path="/lead/:id"
               element={
-                <Lead isAdmin={isAdmin} userId={userId} userName={userName} />
+                <Lead
+                  isAdmin={isAdmin}
+                  userId={userId}
+                  userName={userName}
+                />
               }
             />
           </Routes>

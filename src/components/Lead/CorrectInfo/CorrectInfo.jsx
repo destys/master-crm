@@ -11,7 +11,7 @@ import UseFetch from "../../../hooks/useFetch";
 import axios from "axios";
 import { getToken } from "../../../helpers";
 
-const CorrectInfo = ({ id, isAdmin }) => {
+const CorrectInfo = ({ id, isAdmin, userPercent }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
 
   const [valueStatus, setValueStatus] = useState(data?.attributes.order_status);
@@ -39,7 +39,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
 
     axios
       .put(
-        `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info`,
+        `https://snurinoothe.beget.app/api/orders/${id}?populate=correct_info,users_permissions_user,income,consumption`,
         {
           data: {
             id: id,
@@ -58,6 +58,53 @@ const CorrectInfo = ({ id, isAdmin }) => {
         setTimeout(() => {
           setShowMessage(false);
         }, 3000);
+
+        // Обновляем информацию о балансе у менеджера
+
+        if (response.data.data.attributes.order_status === "Готов") {
+          const masterId =
+            response.data.data.attributes.users_permissions_user.data.id;
+          const masterBalance =
+            response.data.data.attributes.users_permissions_user.data.attributes
+              .balance;
+
+          const masterPercent =
+            response.data.data.attributes.users_permissions_user.data.attributes
+              .percent;
+
+          let totalIncome = 0;
+          let totalConsumption = 0;
+
+          response.data.data.attributes.income.map((item) => {
+            return (totalIncome += item.amount);
+          });
+          response.data.data.attributes.consumption.map((item) => {
+            return (totalConsumption += item.amount);
+          });
+
+          const userAddBalance =
+            masterBalance +
+            (totalIncome - totalConsumption) * (masterPercent / 100);
+
+          axios
+            .put(
+              `${process.env.REACT_APP_API_URL}/users/${masterId}`,
+              {
+                balance: userAddBalance,
+              },
+              {
+                headers: {
+                  Authorization: "Bearer " + userToken,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("response: ", response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -110,7 +157,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       <Option value="Отказ">Отказ</Option>
                       <Option value="У Борисыча">У Борисыча</Option>
                       <Option value="Выдан">Выдан</Option>
-                      {isAdmin && <Option value="Готов">Готов</Option>}
+                      {isAdmin ? <Option value="Готов">Готов</Option> : ""}
                     </Select>
                   </div>
                   <div className="w-full mb-4">

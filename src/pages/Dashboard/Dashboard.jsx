@@ -6,7 +6,6 @@ import { getToken } from "../../helpers";
 import { Input } from "@material-tailwind/react";
 
 const Dashboard = ({ isAdmin, userId, userBalance, filterRow }) => {
-  console.log("filterRow: ", filterRow);
   const userToken = getToken();
   const [leads, setLeads] = useState([]);
   const [error, setError] = useState("");
