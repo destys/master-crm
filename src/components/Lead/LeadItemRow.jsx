@@ -49,6 +49,13 @@ const LeadItemRow = ({ item }) => {
           </div>
         </td>
         <td className="pl-5">
+          <div className="flex items-center">
+            <p className="text-sm leading-none text-gray-600 ml-2">
+              {`${item.attributes.correct_info?.sold_date} ${item.attributes.correct_info?.sold_time}`}
+            </p>
+          </div>
+        </td>
+        <td className="pl-5">
           <div className="flex flex-col">
             {item.attributes.correct_info.device && (
               <p className="text-sm leading-none text-gray-600 ml-2 mb-2 truncate ... w-[200px]">

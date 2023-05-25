@@ -11,7 +11,7 @@ import UseFetch from "../../../hooks/useFetch";
 import axios from "axios";
 import { getToken } from "../../../helpers";
 
-const CorrectInfo = ({ id, isAdmin, userPercent }) => {
+const CorrectInfo = ({ id, isAdmin }) => {
   const { data, loading, error } = UseFetch(`/orders/${id}?populate=*`);
 
   const [valueStatus, setValueStatus] = useState(data?.attributes.order_status);
@@ -335,7 +335,7 @@ const CorrectInfo = ({ id, isAdmin, userPercent }) => {
                       />
                     </div> 
                   </div>*/}
-                  <div className="w-full mb-4">
+                  <div className="w-full mb-4 flex gap-1">
                     <Input
                       name="sold_date"
                       value={
@@ -345,7 +345,18 @@ const CorrectInfo = ({ id, isAdmin, userPercent }) => {
                       }
                       onChange={handleInputChange}
                       type={"date"}
-                      label="Дата продажи"
+                      label="Дата выезда"
+                    />
+                    <Input
+                      name="sold_time"
+                      value={
+                        formValues.sold_time ||
+                        data?.attributes.correct_info.sold_time ||
+                        ""
+                      }
+                      onChange={handleInputChange}
+                      type={"time"}
+                      label="Время выезда"
                     />
                   </div>
                   <div className="w-full mb-4">

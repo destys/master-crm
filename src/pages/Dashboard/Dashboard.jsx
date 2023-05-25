@@ -93,6 +93,11 @@ const Dashboard = ({ isAdmin, userId, userBalance, filterRow }) => {
                         </td>
                         <td className="pl-5 py-3">
                           <p className="text-sm leading-none text-gray-600 ml-2">
+                            Дата выезда
+                          </p>
+                        </td>
+                        <td className="pl-5 py-3">
+                          <p className="text-sm leading-none text-gray-600 ml-2">
                             Об устройстве
                           </p>
                         </td>
