@@ -10,8 +10,8 @@ const Sidebar = ({ isAdmin }) => {
     <>
       <div className="w-80 fixed h-full hidden bg-gray-800 shadow flex-col justify-between sm:flex">
         <div className="px-5 flex flex-col h-full">
-          <Link to={"/"} className="h-16 w-full flex items-center">
-            <img src="/images/logo.svg" alt="logo" />
+          <Link to={"/"} className="mt-5 h-16 w-full flex items-center">
+            <img src="/images/logo.png" width={150} height={150} alt="logo" />
           </Link>
 
           {/* Search */}
@@ -239,8 +239,8 @@ const Sidebar = ({ isAdmin }) => {
           </svg>
         </div>
         <div className="px-5 flex flex-col h-full">
-          <Link to={"/"} className="h-16 w-full flex items-center">
-            <img src="/images/logo.svg" alt="logo" />
+          <Link to={"/"} className="mt-5 h-16 w-full flex items-center">
+            <img src="/images/logo.png" width={150} height={150} alt="logo" />
           </Link>
 
           {/* Search */}

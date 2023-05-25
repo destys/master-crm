@@ -20,21 +20,19 @@ import Accounting from "./Accounting/Accounting";
 
 const Lead = ({ isAdmin, userId, userName }) => {
   const leadId = parseInt(useParams().id);
-
   const { data } = UseFetch(`/orders/${leadId}?populate=*`);
+
+  const masterLead =
+    data?.attributes.users_permissions_user.data?.attributes?.name +
+    " " +
+    data?.attributes.users_permissions_user.data?.attributes?.last_name;
 
   const tabs = [
     {
       label: "Редактирование",
       onlyAdmin: false,
       value: "correct",
-      component: (
-        <CorrectInfo
-          id={leadId}
-          data={data}
-          isAdmin={isAdmin}
-        />
-      ),
+      component: <CorrectInfo id={leadId} data={data} isAdmin={isAdmin} />,
     },
     {
       label: "Клиент",
@@ -83,10 +81,11 @@ const Lead = ({ isAdmin, userId, userName }) => {
   return (
     <>
       <div className="container px-5 mx-auto py-10 md:w-4/5 w-11/12 basis-3/4 overflow-hidden overflow-y-scroll max-h-screen">
-        <div className="col-span-full mb-4">
+        <div className="flex justify-between gap-3 col-span-full mb-4">
           <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
             Наряд №{data?.attributes.order_number}
           </h1>
+          <div className="font-12">Мастер: {masterLead}</div>
         </div>
         {data?.attributes.users_permissions_user?.data?.id === userId ||
         isAdmin ? (
