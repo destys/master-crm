@@ -27,10 +27,11 @@ function App() {
         },
       })
       .then((response) => {
+        console.log("response: ", response);
         setUserBalance(response.data.balance);
         setUserName(response.data.name + " " + response.data.last_name);
 
-        response.data.role.type === "admin"
+        response.data?.role?.type === "admin"
           ? setIsAdmin(true)
           : setIsAdmin(false);
 
@@ -100,11 +101,7 @@ function App() {
             <Route
               path="/lead/:id"
               element={
-                <Lead
-                  isAdmin={isAdmin}
-                  userId={userId}
-                  userName={userName}
-                />
+                <Lead isAdmin={isAdmin} userId={userId} userName={userName} />
               }
             />
           </Routes>

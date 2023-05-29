@@ -113,7 +113,7 @@ const Client = ({ id }) => {
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-1">
             <Input
-              label="Имя"
+              label="ФИО клиента"
               name="name"
               defaultValue={client?.attributes.name}
               onChange={handleInputChange}

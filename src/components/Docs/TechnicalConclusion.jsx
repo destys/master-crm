@@ -19,6 +19,13 @@ Font.register({
 const TechnicalConclusion = ({ lead }) => {
   const nowDate = new Date().toLocaleDateString("ru-RU");
 
+  const masterFio = lead.attributes.users_permissions_user.data?.attributes
+    ?.name
+    ? lead.attributes.users_permissions_user.data?.attributes?.name +
+      " " +
+      lead.attributes.users_permissions_user.data?.attributes?.last_name
+    : null;
+
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -202,7 +209,9 @@ const TechnicalConclusion = ({ lead }) => {
                 >
                   Заявленный владельцем дефект:
                 </Text>
-                <Text style={{ flexBasis: 300, padding: 3 }}></Text>
+                <Text style={{ flexBasis: 300, padding: 3 }}>
+                  {lead.attributes.correct_info.defect}{" "}
+                </Text>
               </View>
               <View style={styles.tableRow}>
                 <Text
@@ -235,9 +244,7 @@ const TechnicalConclusion = ({ lead }) => {
                     padding: 3,
                     borderBottom: "1px solid #000",
                   }}
-                >
-                  {lead.attributes.correct_info.defect}{" "}
-                </Text>
+                ></Text>
               </View>
             </View>
 
@@ -265,7 +272,9 @@ const TechnicalConclusion = ({ lead }) => {
                 >
                   Ф.И.О:
                 </Text>
-                <Text style={{ flexBasis: 300, padding: 3 }}></Text>
+                <Text style={{ flexBasis: 300, padding: 3 }}>
+                  {lead.attributes.client?.data?.attributes?.name}
+                </Text>
               </View>
               <View style={styles.tableRow}>
                 <Text
@@ -340,9 +349,7 @@ const TechnicalConclusion = ({ lead }) => {
                 >
                   Ф.И.О Инженера:
                 </Text>
-                <Text style={{ flexBasis: 300, padding: 3 }}>
-                  {lead.attributes.correct_info.brand}
-                </Text>
+                <Text style={{ flexBasis: 300, padding: 3 }}>{masterFio}</Text>
               </View>
               <View style={styles.tableRow}>
                 <Text

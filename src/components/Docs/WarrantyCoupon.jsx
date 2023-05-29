@@ -17,6 +17,7 @@ Font.register({
 });
 
 const WarrantyCoupon = ({ lead }) => {
+  console.log("lead: ", lead.attributes?.income);
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -148,7 +149,11 @@ const WarrantyCoupon = ({ lead }) => {
                 >
                   Произведенные работы:
                 </Text>
-                <Text style={{ flexBasis: 300, padding: 3 }}></Text>
+                <Text style={{ flexBasis: 300, padding: 3 }}>
+                  {lead.attributes?.income.map((item, index) =>
+                    index !== lead.length - 1 ? item.title + ", " : item.title
+                  )}
+                </Text>
               </View>
               <View style={styles.tableRow}>
                 <Text

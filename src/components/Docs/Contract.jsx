@@ -45,7 +45,7 @@ const Contract = ({ lead }) => {
       justifyContent: "space-between",
     },
     logo: {
-      width: 150,
+      width: 200,
       objectFit: "contain",
     },
     seal: {

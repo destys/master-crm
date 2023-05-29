@@ -27,6 +27,7 @@ const Print = ({ lead }) => {
     setShowContract(false);
     setShowWarranty(false);
     setShowAct(false);
+    setShowTechConclusion(false);
   };
 
   const handleShowContract = () => {

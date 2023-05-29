@@ -10,8 +10,14 @@ const Sidebar = ({ isAdmin }) => {
     <>
       <div className="w-80 fixed h-full hidden bg-gray-800 shadow flex-col justify-between sm:flex">
         <div className="px-5 flex flex-col h-full">
-          <Link to={"/"} className="mt-5 h-16 w-full flex items-center">
-            <img src="/images/logo.png" width={150} height={150} alt="logo" />
+          <Link to={"/"} className="mt-7 h-16 w-full flex items-center">
+            <img
+              src="/images/logo-crm.png"
+              width={250}
+              height={150}
+              alt="logo"
+              className="h-32"
+            />
           </Link>
 
           {/* Search */}
@@ -239,39 +245,16 @@ const Sidebar = ({ isAdmin }) => {
           </svg>
         </div>
         <div className="px-5 flex flex-col h-full">
-          <Link to={"/"} className="mt-5 h-16 w-full flex items-center">
-            <img src="/images/logo.png" width={150} height={150} alt="logo" />
+          <Link to={"/"} className="mt-7 h-16 w-full flex items-center">
+            <img
+              src="/images/logo-crm.png"
+              width={250}
+              height={150}
+              alt="logo"
+              className="h-32"
+            />
           </Link>
 
-          {/* Search */}
-          {/* <div className="flex justify-center mt-12 mb-4 w-full">
-            <div className="relative w-full">
-              <div className="text-gray-500 absolute ml-4 inset-0 m-auto w-4 h-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-search"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <circle cx={10} cy={10} r={7} />
-                  <line x1={21} y1={21} x2={15} y2={15} />
-                </svg>
-              </div>
-              <input
-                className=" bg-gray-700 focus:outline-none rounded w-full text-sm text-gray-500 pl-10 py-2"
-                type="text"
-                placeholder="Search"
-              />
-            </div>
-          </div> */}
-          {/* End Search */}
           {isAdmin && (
             <ul className="mt-12">
               <li className="flex w-full justify-between text-gray-50 hover:text-gray-500 cursor-pointer items-center mb-6">

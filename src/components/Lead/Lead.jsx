@@ -17,6 +17,7 @@ import UseFetch from "../../hooks/useFetch";
 import Client from "./Client/Client";
 import Master from "./Master/Master";
 import Accounting from "./Accounting/Accounting";
+import Chat from "./Chat";
 
 const Lead = ({ isAdmin, userId, userName }) => {
   const leadId = parseInt(useParams().id);
@@ -64,12 +65,12 @@ const Lead = ({ isAdmin, userId, userName }) => {
       value: "accounting",
       component: <Accounting id={leadId} data={data} />,
     },
-    /* {
+    {
       label: "Чат",
       onlyAdmin: false,
       value: "chat",
       component: <Chat id={leadId} />,
-    }, */
+    },
     {
       label: "Мастер",
       onlyAdmin: true,

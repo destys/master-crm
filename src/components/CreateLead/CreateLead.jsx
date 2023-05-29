@@ -55,7 +55,7 @@ const CreateLead = () => {
       .then((response) => {
         axios
           .post(
-            `https://snurinoothe.beget.app/api/orders/`,
+            `https://snurinoothe.beget.app/api/orders?populate=correct_info`,
             {
               data: {
                 order_status: valueStatus,
@@ -72,14 +72,25 @@ const CreateLead = () => {
             }
           )
           .then((response) => {
-            console.log('response: ', response);
+            console.log(
+              "response: ",
+              response.data.data.attributes.correct_info.kind_of_repair
+            );
+
+            const placeCode =
+              response.data.data.attributes.correct_info.kind_of_repair ===
+              "Выездной"
+                ? "G"
+                : "VO";
+
             axios
               .put(
                 `https://snurinoothe.beget.app/api/orders/${response.data.data.id}`,
                 {
                   data: {
                     order_number:
-                      "VO-" +
+                      placeCode +
+                      "-" +
                       nowDate.getDate() +
                       (nowDate.getMonth() + 1 < 10
                         ? "0" + (nowDate.getMonth() + 1)

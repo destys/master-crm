@@ -98,8 +98,7 @@ const SendMessage = ({ client, userName, leadId }) => {
         text: smsText,
         sender: userName,
       };
-
-      console.log("sms_list: ", sms_list);
+      
       axios
         .put(
           `https://snurinoothe.beget.app/api/orders/${leadId}?populate=sms_list`,
