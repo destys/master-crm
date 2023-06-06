@@ -218,7 +218,7 @@ const CreateLead = () => {
                         onChange={handleChange3}
                       >
                         <Option value="Выездной">Выездной</Option>
-                        <Option value="Доставка">Доставка</Option>
+                        <Option value="Доставка">Станционарный</Option>
                       </Select>
                     </div>
                     <div className="absolute">
@@ -288,7 +288,7 @@ const CreateLead = () => {
                       />
                     </div>
                     <div className="w-full mb-4">
-                      <Textarea
+                      <Input
                         name="defect"
                         value={formValues.defect}
                         onChange={handleInputChange}
@@ -351,7 +351,7 @@ const CreateLead = () => {
                         name="sold_shop"
                         value={formValues.sold_shop}
                         onChange={handleInputChange}
-                        label="Магазин"
+                        label="Заключение"
                       />
                     </div>
                     <div className="w-full mb-4">
@@ -359,7 +359,7 @@ const CreateLead = () => {
                         name="card_number"
                         value={formValues.card_number}
                         onChange={handleInputChange}
-                        label="Номер карты"
+                        label="Оценка"
                       />
                     </div>
                     <div className="w-full mb-1">
@@ -378,14 +378,6 @@ const CreateLead = () => {
                         onChange={handleInputChange}
                         type={"date"}
                         label="Дата диагностики"
-                      />
-                    </div>
-                    <div className="w-full mb-4">
-                      <Input
-                        name="prepayment"
-                        value={formValues.prepayment}
-                        onChange={handleInputChange}
-                        label="Предоплата"
                       />
                     </div>
                     <div className="w-full mb-4">

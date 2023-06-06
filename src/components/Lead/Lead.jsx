@@ -42,7 +42,7 @@ const Lead = ({ isAdmin, userId, userName }) => {
       component: <Client id={leadId} data={data} />,
     },
     {
-      label: "Вложения",
+      label: "Фото техники",
       onlyAdmin: false,
       value: "attachments",
       component: <Attachments id={leadId} data={data} />,

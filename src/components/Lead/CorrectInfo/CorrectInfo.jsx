@@ -185,10 +185,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       onChange={handleChange3}
                     >
                       <Option value="Выездной">Выездной</Option>
-                      <Option value="Доставка">Доставка</Option>
-                      <Option value="Доставка в стационар">
-                        Доставка в стационар
-                      </Option>
+                      <Option value="Доставка">Станционарный</Option>
                     </Select>
                   </div>
                   <div className="absolute">
@@ -277,7 +274,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                     />
                   </div>
                   <div className="w-full mb-4">
-                    <Textarea
+                    <Input
                       name="defect"
                       value={
                         formValues.defect ||
@@ -341,7 +338,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       value={
                         formValues.sold_date ||
                         data?.attributes.correct_info.sold_date ||
-                        ""
+                        "2020-01-01"
                       }
                       onChange={handleInputChange}
                       type={"date"}
@@ -367,7 +364,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                         data?.attributes.correct_info.sold_shop
                       }
                       onChange={handleInputChange}
-                      label="Магазин"
+                      label="Заключение"
                     />
                   </div>
                   <div className="w-full mb-4">
@@ -378,7 +375,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                         data?.attributes.correct_info.card_number
                       }
                       onChange={handleInputChange}
-                      label="Номер карты"
+                      label="Оценка"
                     />
                   </div>
                   <div className="w-full mb-1">
@@ -403,17 +400,6 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       onChange={handleInputChange}
                       type={"date"}
                       label="Дата диагностики"
-                    />
-                  </div>
-                  <div className="w-full mb-4">
-                    <Input
-                      name="prepayment"
-                      value={
-                        formValues.prepayment ||
-                        data?.attributes.correct_info.prepayment
-                      }
-                      onChange={handleInputChange}
-                      label="Предоплата"
                     />
                   </div>
                   <div className="w-full mb-4">

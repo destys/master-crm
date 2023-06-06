@@ -34,8 +34,8 @@ const Login = () => {
       <div className="w-full max-w-md space-y-8">
         <div>
           <img
-            className="mx-auto h-12 w-auto"
-            src="/images/short-logo.svg"
+            className="mx-auto h-24 w-auto"
+            src="/images/logo.png"
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">

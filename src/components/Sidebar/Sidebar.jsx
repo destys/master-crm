@@ -10,13 +10,13 @@ const Sidebar = ({ isAdmin }) => {
     <>
       <div className="w-80 fixed h-full hidden bg-gray-800 shadow flex-col justify-between sm:flex">
         <div className="px-5 flex flex-col h-full">
-          <Link to={"/"} className="mt-7 h-16 w-full flex items-center">
+          <Link to={"/"} className="mt-16 h-16 w-full flex items-center">
             <img
               src="/images/logo-crm.png"
               width={250}
               height={150}
               alt="logo"
-              className="h-32"
+              className="h-40"
             />
           </Link>
 

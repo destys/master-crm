@@ -181,7 +181,9 @@ const TechnicalConclusion = ({ lead }) => {
                     padding: 3,
                     borderBottom: "1px solid #000",
                   }}
-                ></Text>
+                >
+                  {lead.attributes.client?.data?.attributes?.address}
+                </Text>
               </View>
             </View>
 

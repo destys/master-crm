@@ -57,18 +57,18 @@ const LeadItemRow = ({ item }) => {
         </td>
         <td className="pl-5">
           <div className="flex flex-col">
-            {item.attributes.correct_info.device && (
+            {item.attributes.correct_info?.device && (
               <p className="text-sm leading-none text-gray-600 ml-2 mb-2 truncate ... w-[200px]">
                 {item.attributes.correct_info.device}
               </p>
             )}
 
-            {item.attributes.correct_info.brand && (
+            {item.attributes.correct_info?.brand && (
               <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
                 {item.attributes.correct_info.brand}
               </p>
             )}
-            {item.attributes.correct_info.model_code && (
+            {item.attributes.correct_info?.model_code && (
               <p className="text-sm leading-none text-gray-600 ml-2 mb-2">
                 {item.attributes.correct_info.model_code}
               </p>

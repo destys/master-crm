@@ -17,6 +17,21 @@ Font.register({
 });
 
 const ActOfCompleted = ({ lead }) => {
+  console.log("lead: ", lead);
+
+  let totalPrice = 0;
+  let performedWork = "";
+  const allIncomes = lead.attributes?.income;
+
+  if (allIncomes.length) {
+    allIncomes.forEach((item, index) => {
+      totalPrice += item.amount;
+      index !== allIncomes.length - 1
+        ? (performedWork += item.title + ", ")
+        : (performedWork += item.title);
+    });
+  }
+
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -176,9 +191,9 @@ const ActOfCompleted = ({ lead }) => {
                 ></Text>
               </View>
             </View>
-            <Text style={styles.title}>Описание работ:</Text>
-            <Text style={styles.title}>Стоимость работ:</Text>
-            <Text style={styles.title}>Итого к плате:</Text>
+            <Text style={styles.title}>Описание работ: {performedWork}</Text>
+            <Text style={styles.title}>Стоимость работ: {totalPrice} руб</Text>
+            <Text style={styles.title}>Итого к плате: {totalPrice} руб</Text>
           </View>
           <View style={styles.footer}>
             <Text style={{ marginBottom: 20 }}>
