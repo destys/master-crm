@@ -188,7 +188,7 @@ const ActOfCompleted = ({ lead }) => {
                     padding: 3,
                     borderBottom: "1px solid #000",
                   }}
-                ></Text>
+                >{lead.attributes.correct_info.not_coordinate}</Text>
               </View>
             </View>
             <Text style={styles.title}>Описание работ: {performedWork}</Text>

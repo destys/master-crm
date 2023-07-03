@@ -311,7 +311,7 @@ const CreateLead = () => {
                         name="defect_tag"
                         value={formValues.defect_tag}
                         onChange={handleInputChange}
-                        label="Тэг дефекта"
+                        label="Гарантия (напр. 6 месяцев)"
                         required
                       />
                     </div>
@@ -385,7 +385,8 @@ const CreateLead = () => {
                         name="not_coordinate"
                         value={formValues.not_coordinate}
                         onChange={handleInputChange}
-                        label="Не согласовывать до"
+                        type="date"
+                        label="Дата выдачи"
                       />
                     </div>
                   </div>

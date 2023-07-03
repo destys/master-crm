@@ -173,7 +173,7 @@ const WarrantyCoupon = ({ lead }) => {
                     borderBottom: "1px solid #000",
                   }}
                 >
-                  6 месяцев
+                  {lead.attributes.correct_info.defect_tag || "Не заполнено"}
                 </Text>
               </View>
             </View>

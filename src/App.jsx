@@ -58,7 +58,7 @@ function App() {
                   isAdmin={isAdmin}
                   userId={userId}
                   userBalance={userBalance}
-                  filterRow="[0][order_status][$ne]=Готов"
+                  filterRow="[0][order_status][$ne]=Готов[1][order_status][$ne]=Отказ"
                 />
               }
             />
@@ -69,7 +69,7 @@ function App() {
                   isAdmin={isAdmin}
                   userId={userId}
                   userBalance={userBalance}
-                  filterRow="[0][order_status][$ne]=Готов"
+                  filterRow="[0][order_status][$ne]=Готов[1][order_status][$ne]=Отказ"
                 />
               }
             />

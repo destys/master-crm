@@ -306,7 +306,7 @@ const CorrectInfo = ({ id, isAdmin }) => {
                         data?.attributes.correct_info.defect_tag
                       }
                       onChange={handleInputChange}
-                      label="Тэг дефекта"
+                      label="Гарантия(напр. 6 месяцев)"
                       required
                     />
                   </div>
@@ -356,6 +356,31 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       label="Время выезда"
                     />
                   </div>
+
+                  <div className="w-full mb-4">
+                    <Input
+                      name="diagnostics_date"
+                      value={
+                        formValues.diagnostics_date ||
+                        data?.attributes.correct_info.diagnostics_date
+                      }
+                      onChange={handleInputChange}
+                      type={"date"}
+                      label="Дата диагностики"
+                    />
+                  </div>
+                  <div className="w-full mb-4">
+                    <Input
+                      name="not_coordinate"
+                      value={
+                        formValues.not_coordinate ||
+                        data?.attributes.correct_info.not_coordinate
+                      }
+                      onChange={handleInputChange}
+                      type={"date"}
+                      label="Дата выдачи"
+                    />
+                  </div>
                   <div className="w-full mb-4">
                     <Input
                       name="sold_shop"
@@ -388,29 +413,6 @@ const CorrectInfo = ({ id, isAdmin }) => {
                       onChange={handleInputChange}
                       label="Комплектация"
                       size="lg"
-                    />
-                  </div>
-                  <div className="w-full mb-4">
-                    <Input
-                      name="diagnostics_date"
-                      value={
-                        formValues.diagnostics_date ||
-                        data?.attributes.correct_info.diagnostics_date
-                      }
-                      onChange={handleInputChange}
-                      type={"date"}
-                      label="Дата диагностики"
-                    />
-                  </div>
-                  <div className="w-full mb-4">
-                    <Input
-                      name="not_coordinate"
-                      value={
-                        formValues.not_coordinate ||
-                        data?.attributes.correct_info.not_coordinate
-                      }
-                      onChange={handleInputChange}
-                      label="Не согласовывать до"
                     />
                   </div>
                 </div>
